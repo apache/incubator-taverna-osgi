@@ -1,0 +1,15 @@
+<component-set>
+  <components>
+    <component>
+      <role>org.apache.maven.lifecycle.mapping.LifecycleMapping</role>
+      <role-hint>taverna-plugin</role-hint>
+      <implementation>org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping</implementation>
+      <configuration>
+        <phases>
+          <package>net.sf.taverna.t2.maven.plugins:maven-taverna-plugin:plugin-generate</package>
+          <deploy>net.sf.taverna.t2.maven.plugins:maven-taverna-plugin:plugin-deploy</deploy>
+        </phases>
+      </configuration>
+    </component>
+  </components>
+</component-set>
