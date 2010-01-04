@@ -103,6 +103,14 @@ public class TavernaPluginGenerateMojo extends AbstractMojo {
 	 * @parameter
 	 * @required
 	 */
+	private String provider;
+
+	/**
+	 * The version of Taverna that the plugin is compatible with.
+	 * 
+	 * @parameter
+	 * @required
+	 */
 	private String tavernaVersion;
 
 	/**
@@ -162,9 +170,9 @@ public class TavernaPluginGenerateMojo extends AbstractMojo {
 		pluginElement.setAttribute("xsi:schemaLocation", SCHEMA_LOCATION);
 		document.appendChild(pluginElement);
 
-		Element provider = document.createElement("provider");
-		provider.setTextContent("taverna.sf.net");
-		pluginElement.appendChild(provider);
+		Element providerElement = document.createElement("provider");
+		providerElement.setTextContent(provider);
+		pluginElement.appendChild(providerElement);
 
 		Element identifier = document.createElement("identifier");
 		identifier.setTextContent(groupId + "." + artifactId);
