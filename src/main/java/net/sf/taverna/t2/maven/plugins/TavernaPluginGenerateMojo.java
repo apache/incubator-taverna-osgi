@@ -47,6 +47,7 @@ import org.apache.maven.artifact.resolver.ResolutionNode;
 import org.apache.maven.artifact.resolver.filter.ArtifactFilter;
 import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
 import org.apache.maven.execution.MavenSession;
+import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -206,8 +207,7 @@ public class TavernaPluginGenerateMojo extends AbstractMojo {
 		Element profile = document.createElement("profile");
 		pluginElement.appendChild(profile);
 
-		for (Object artifact : project.getDependencyArtifacts()) {
-			Artifact dependency = (Artifact) artifact;
+		for (Dependency dependency : project.getModel().getDependencies()) {
 			Element dependencyElement = document.createElement("dependency");
 			Element groupIdElement = document.createElement("groupId");
 			groupIdElement.setTextContent(dependency.getGroupId());
@@ -283,6 +283,9 @@ public class TavernaPluginGenerateMojo extends AbstractMojo {
 			for (Object remoteRepository : node.getRemoteRepositories()) {
 				ArtifactRepository repository = (ArtifactRepository) remoteRepository;
 				String repositoryUrl = repository.getUrl();
+				if (repositoryUrl.endsWith("/") || repositoryUrl.endsWith("\\")) {
+					repositoryUrl = repositoryUrl.substring(0, repositoryUrl.length() - 1);
+				}
 				if (!repositories.contains(repositoryUrl)) {
 					repositories.add(repositoryUrl);
 				}
