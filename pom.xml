@@ -1,0 +1,18 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.sf.taverna</groupId>
+		<artifactId>taverna-parent</artifactId>
+		<version>3.0-SNAPSHOT</version>
+	</parent>
+  <groupId>uk.org.taverna.osgi</groupId>
+  <artifactId>osgi-services</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>OSGi Enterprise Service Implementations</name>
+  <description>Implementations of services specified in the OSGi Service Platform Enterprise Specification, Release 4, Version 4.2.</description>
+  <packaging>pom</packaging>
+  <modules>
+  	<module>xml-parser-service</module>
+  	<module>xml-transformer-service</module>
+  </modules>
+</project>
