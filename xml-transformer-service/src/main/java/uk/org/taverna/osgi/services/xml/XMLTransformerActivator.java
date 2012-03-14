@@ -28,10 +28,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.transform.TransformerFactoryConfigurationError;
 
-import org.apache.log4j.Logger;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -47,7 +48,7 @@ import org.osgi.framework.ServiceRegistration;
  */
 public class XMLTransformerActivator implements BundleActivator, ServiceFactory {
 
-	private static final Logger logger = Logger.getLogger(XMLTransformerActivator.class);
+	private static final Logger logger = Logger.getLogger(XMLTransformerActivator.class.getName());
 
 	private BundleContext context;
 
@@ -69,7 +70,7 @@ public class XMLTransformerActivator implements BundleActivator, ServiceFactory 
 		try {
 			return createFactory(transformerFactoryClassName);
 		} catch (TransformerFactoryConfigurationError fce) {
-			logger.warn("Error while creating TransformerFactory", fce);
+			logger.log(Level.WARNING, "Error while creating TransformerFactory", fce);
 			return null;
 		}
 	}
