@@ -37,7 +37,7 @@
 			<groupId>org.apache.xerces</groupId>
 			<artifactId>com.springsource.org.apache.xerces</artifactId>
 			<version>${xerces.version}</version>
-			<scope>provided</scope>
+			<!-- <scope>provided</scope> -->
 		</dependency>
 	</dependencies>
 </project>
