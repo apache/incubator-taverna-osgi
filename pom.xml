@@ -6,7 +6,7 @@
 		<artifactId>parent</artifactId>
 		<version>0.2.2011-02-17</version>
 	</parent>
-	<groupId>uk.org.taverna</groupId>
+	<groupId>uk.org.taverna.osgi</groupId>
 	<artifactId>osgi-launcher</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
 	<name>OSGi Framework Launcher</name>
