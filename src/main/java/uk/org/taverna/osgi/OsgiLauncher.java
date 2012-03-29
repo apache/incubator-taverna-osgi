@@ -79,6 +79,13 @@ public class OsgiLauncher {
 	private Set<String> startedSpringContexts = new HashSet<String>();
 	private Bundle springOsgiExtender;
 
+	private OsgiLauncher(File storageDirectory) {
+		setStorageDirectory(storageDirectory);
+		setCleanStorageDirectory(true);
+		setBootDelegationPackages(DEFAULT_BOOT_DELEGATION_PACKAGES);
+		setSystemPackages(DEFAULT_SYSTEM_PACKAGES);
+	}
+
 	/**
 	 * Constructs an <code>OsgiLauncher</code> that loads bundles from a directory.
 	 *
@@ -91,11 +98,15 @@ public class OsgiLauncher {
 	 *            the directory containing bundles to load
 	 */
 	public OsgiLauncher(File storageDirectory, File bundleDir) {
-		this(storageDirectory, Arrays.asList(bundleDir.listFiles(new FilenameFilter() {
+		this(storageDirectory);
+		List<File> jars = Arrays.asList(bundleDir.listFiles(new FilenameFilter() {
 			public boolean accept(File dir, String name) {
 				return name.endsWith(".jar");
 			}
-		})));
+		}));
+		for (File jar : jars) {
+			bundlesToInstall.add(jar.toURI());
+		}
 	}
 
 	/**
@@ -103,21 +114,14 @@ public class OsgiLauncher {
 	 *
 	 * @param storageDirectory
 	 *            persistent storage area used by the framework
-	 * @param bundleFiles
+	 * @param bundleURIs
 	 *            bundles to load
 	 */
-	public OsgiLauncher(File appDirectory, List<File> bundleFiles) {
-		for (File bundleFile : bundleFiles) {
-			bundlesToInstall.add(bundleFile.toURI());
+	public OsgiLauncher(File storageDirectory, List<URI> bundleURIs) {
+		this(storageDirectory);
+		for (URI bundleURI : bundleURIs) {
+			bundlesToInstall.add(bundleURI);
 		}
-		setStorageDirectory(appDirectory);
-		setCleanStorageDirectory(true);
-		setBootDelegationPackages(DEFAULT_BOOT_DELEGATION_PACKAGES);
-		setSystemPackages(DEFAULT_SYSTEM_PACKAGES);
-	}
-
-	public void setStorageDirectory(File storageDirectory) {
-		frameworkConfiguration.put(Constants.FRAMEWORK_STORAGE, storageDirectory.getAbsolutePath());
 	}
 
 	/**
@@ -344,6 +348,15 @@ public class OsgiLauncher {
 	 */
 	public void setSystemPackages(String systemPackages) {
 		frameworkConfiguration.put(Constants.FRAMEWORK_SYSTEMPACKAGES_EXTRA, systemPackages);
+	}
+
+	/**
+	 * Sets the persistent storage area used by the framework.
+	 *
+	 * @param storageDirectory the persistent storage area used by the framework
+	 */
+	public void setStorageDirectory(File storageDirectory) {
+		frameworkConfiguration.put(Constants.FRAMEWORK_STORAGE, storageDirectory.getAbsolutePath());
 	}
 
 	/**
