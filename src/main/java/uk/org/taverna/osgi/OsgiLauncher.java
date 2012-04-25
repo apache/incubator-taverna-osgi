@@ -67,8 +67,12 @@ public class OsgiLauncher {
 	 */
 	public static final String DEFAULT_SYSTEM_PACKAGES = "com.sun.org.apache.xml.internal.utils";
 
+	/**
+	 * Default time to wait for services to start up.
+	 */
+	private static final long serviceLoadTimeoutSeconds = 30;
+
 	private static final Logger logger = Logger.getLogger(OsgiLauncher.class.getName());
-	private static final long timeoutSeconds = 30;
 
 	private Framework framework;
 	private BundleContext context;
@@ -97,9 +101,9 @@ public class OsgiLauncher {
 	 * @param storageDirectory
 	 *            the directory containing bundles to load
 	 */
-	public OsgiLauncher(File storageDirectory, File bundleDir) {
+	public OsgiLauncher(File storageDirectory, File bundleDirectory) {
 		this(storageDirectory);
-		List<File> jars = Arrays.asList(bundleDir.listFiles(new FilenameFilter() {
+		List<File> jars = Arrays.asList(bundleDirectory.listFiles(new FilenameFilter() {
 			public boolean accept(File dir, String name) {
 				return name.endsWith(".jar");
 			}
@@ -175,9 +179,12 @@ public class OsgiLauncher {
 	 * @param waitForServices
 	 *            if true waits for services to start before returning
 	 * @throws BundleException
-	 *             if a service could not be started
+	 *             if the framework has not been started or a service could not be started
 	 */
 	public void startServices(boolean waitForServices) throws BundleException {
+		if (framework == null || framework.getState() != Bundle.ACTIVE) {
+			throw new BundleException("Framework not started");
+		}
 		if (springOsgiExtender != null) {
 			logger.info("Starting Spring OSGi Extender");
 			springOsgiExtender.start();
@@ -187,7 +194,7 @@ public class OsgiLauncher {
 					if (bundle.getState() == Bundle.ACTIVE) {
 						if (hasSpringContext(bundle)) {
 							logger.fine("Waiting for " + bundle.getSymbolicName());
-							waitForSpringContext(context, bundle.getSymbolicName(), timeoutSeconds);
+							waitForSpringContext(context, bundle.getSymbolicName(), serviceLoadTimeoutSeconds);
 						}
 					}
 				}
@@ -384,6 +391,7 @@ public class OsgiLauncher {
 	private boolean hasSpringContext(Bundle bundle) {
 		String springFilesLocation = "META-INF/spring";
 		// check for custom spring files location
+		@SuppressWarnings("rawtypes")
 		Dictionary headers = bundle.getHeaders();
 		if (headers != null) {
 			Object header = headers.get("Spring-Context");
@@ -391,6 +399,7 @@ public class OsgiLauncher {
 				springFilesLocation = header.toString().trim();
 			}
 		}
+		@SuppressWarnings("rawtypes")
 		Enumeration springFiles = bundle.findEntries(springFilesLocation, "*.xml", false);
 		return springFiles != null && springFiles.hasMoreElements();
 	}
@@ -403,8 +412,7 @@ public class OsgiLauncher {
 		while (!startedSpringContexts.contains(springContext) && timeLeftToWait > 0) {
 			try {
 				wait(timeLeftToWait);
-			} catch (InterruptedException e) {
-			}
+			} catch (InterruptedException e) {}
 			timeLeftToWait = timeLeftToWait - (System.currentTimeMillis() - startTime);
 		}
 	}
