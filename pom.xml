@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>uk.org.taverna.osgi</groupId>
 	<artifactId>osgi-launcher</artifactId>
-	<version>0.1.0</version>
+	<version>0.1.1-SNAPSHOT</version>
 	<name>OSGi Framework Launcher</name>
 	<description>Launches an OSGi framework and handles loading and starting of OSGi bundles and Spring DM managed services</description>
 	<dependencies>
