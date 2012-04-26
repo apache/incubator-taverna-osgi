@@ -2,9 +2,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>osgi-services</artifactId>
 		<groupId>uk.org.taverna.osgi</groupId>
-		<version>0.0.1-SNAPSHOT</version>
+		<artifactId>osgi-services</artifactId>
+		<version>0.1.0</version>
 	</parent>
 	<groupId>uk.org.taverna.osgi.services</groupId>
 	<artifactId>xml-transformer-service</artifactId>
@@ -20,7 +20,7 @@
 				<configuration>
 					<instructions>
 						<Import-Package>javax.xml.transform;version="0.0.0",org.apache.xalan.processor,*</Import-Package>
-						<Private-Package>!uk.org.taverna.osgi.services.xml</Private-Package>
+						<Export-Package>!uk.org.taverna.osgi.services.xml</Export-Package>
 						<Bundle-Activator>uk.org.taverna.osgi.services.xml.XMLTransformerActivator</Bundle-Activator>
 					</instructions>
 				</configuration>
@@ -36,8 +36,7 @@
 		<dependency>
 			<groupId>org.apache.xalan</groupId>
 			<artifactId>com.springsource.org.apache.xalan</artifactId>
-			<version>${xalan.version}</version>
-			<!-- <scope>provided</scope> -->
+			<version>2.7.1</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.cglib</groupId>

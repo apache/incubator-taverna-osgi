@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>uk.org.taverna.osgi</groupId>
 		<artifactId>osgi-services</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.1.0</version>
 	</parent>
 	<groupId>uk.org.taverna.osgi.services</groupId>
 	<artifactId>xml-parser-service</artifactId>
@@ -36,8 +36,7 @@
 		<dependency>
 			<groupId>org.apache.xerces</groupId>
 			<artifactId>com.springsource.org.apache.xerces</artifactId>
-			<version>${xerces.version}</version>
-			<!-- <scope>provided</scope> -->
+			<version>2.9.1</version>
 		</dependency>
 	</dependencies>
 </project>
