@@ -16,7 +16,6 @@
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<extensions>true</extensions>
 				<configuration>
 					<instructions>
 						<Import-Package>org.w3c.dom;version="0.0.0",org.xml.sax;version="0.0.0",javax.xml.parsers;version="0.0.0",org.apache.xerces.jaxp,*</Import-Package>

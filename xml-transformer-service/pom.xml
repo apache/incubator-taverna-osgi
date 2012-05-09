@@ -16,11 +16,10 @@
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<extensions>true</extensions>
 				<configuration>
 					<instructions>
 						<Import-Package>javax.xml.transform;version="0.0.0",org.apache.xalan.processor,*</Import-Package>
-						<Export-Package>!uk.org.taverna.osgi.services.xml</Export-Package>
+						<Private-Package>uk.org.taverna.osgi.services.xml</Private-Package>
 						<Bundle-Activator>uk.org.taverna.osgi.services.xml.XMLTransformerActivator</Bundle-Activator>
 					</instructions>
 				</configuration>
