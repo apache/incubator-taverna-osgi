@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>uk.org.taverna.osgi</groupId>
 		<artifactId>osgi-services</artifactId>
-		<version>0.1.0</version>
+		<version>0.1.1-SNAPSHOT</version>
 	</parent>
 	<groupId>uk.org.taverna.osgi.services</groupId>
 	<artifactId>xml-parser-service</artifactId>

@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>uk.org.taverna.osgi</groupId>
 	<artifactId>osgi-services</artifactId>
-	<version>0.1.0</version>
+	<version>0.1.1-SNAPSHOT</version>
 	<name>OSGi Enterprise Service Implementations</name>
 	<description>Implementations of services specified in the OSGi Service Platform Enterprise Specification, Release 4, Version 4.2.</description>
 	<packaging>pom</packaging>
