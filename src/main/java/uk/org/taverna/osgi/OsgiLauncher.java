@@ -295,6 +295,15 @@ public class OsgiLauncher {
 	}
 
 	/**
+	 * Sets the configuration to use when creating the OSGi framework.
+	 *
+	 * @param frameworkConfiguration the configuration to use when creating the OSGi framework
+	 */
+	public void setFrameworkConfiguration(Map<String, String> frameworkConfiguration) {
+		this.frameworkConfiguration = frameworkConfiguration;
+	}
+
+	/**
 	 * Adds boot delegation packages.
 	 *
 	 * Multiple packages must be separated by a ','.
