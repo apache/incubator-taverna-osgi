@@ -12,7 +12,6 @@
 						<version>0.1.0</version>
 						<name>Taverna 2 Example Plugin</name>
 					</project>
-					<tavernaVersion>2.1</tavernaVersion>
 				</configuration>
 			</plugin>
 		</plugins>
