@@ -3,7 +3,7 @@
 		<plugins>
 			<plugin>
 				<groupId>net.sf.taverna.t2.maven.plugins</groupId>
-				<artifactId>maven-taverna-plugin</artifactId>
+				<artifactId>taverna-maven-plugin</artifactId>
 				<configuration>
 					<buildDirectory>${basedir}/target/test/unit</buildDirectory>
 					<project>
