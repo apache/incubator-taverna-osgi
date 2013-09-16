@@ -109,7 +109,7 @@ public class TavernaProfileGenerateMojo extends AbstractMojo {
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		try {
 			osgiUtils = new MavenOsgiUtils(project, repositorySystemSession,
-					projectDependenciesResolver);
+					projectDependenciesResolver, getLog());
 			tempDirectory = new File(outputDirectory, TAVERNA_TMP);
 
 			File profileFile = createApplicationProfile();

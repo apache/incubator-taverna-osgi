@@ -65,7 +65,7 @@ public class TavernaPluginPrepareBundlesMojo extends AbstractMojo {
 
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		osgiUtils = new MavenOsgiUtils(project, repositorySystemSession,
-				projectDependenciesResolver);
+				projectDependenciesResolver, getLog());
 		outputDirectory.mkdirs();
 
 		Set<BundleArtifact> bundleDependencies = osgiUtils.getBundleDependencies(

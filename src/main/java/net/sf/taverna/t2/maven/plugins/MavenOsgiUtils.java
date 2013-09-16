@@ -24,7 +24,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -39,6 +38,7 @@ import java.util.jar.Manifest;
 import org.apache.maven.RepositoryUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.DefaultDependencyResolutionRequest;
 import org.apache.maven.project.DependencyResolutionException;
 import org.apache.maven.project.DependencyResolutionResult;
@@ -49,7 +49,6 @@ import org.sonatype.aether.graph.DependencyNode;
 import org.sonatype.aether.util.filter.ScopeDependencyFilter;
 
 import uk.org.taverna.commons.profile.xml.jaxb.BundleInfo;
-
 import aQute.bnd.header.Attrs;
 import aQute.bnd.header.OSGiHeader;
 import aQute.bnd.header.Parameters;
@@ -67,12 +66,14 @@ public class MavenOsgiUtils {
 	private final MavenProject project;
 	private final RepositorySystemSession repositorySystemSession;
 	private final ProjectDependenciesResolver projectDependenciesResolver;
+	private final Log log;
 
 	public MavenOsgiUtils(MavenProject project, RepositorySystemSession repositorySystemSession,
-			ProjectDependenciesResolver projectDependenciesResolver) {
+			ProjectDependenciesResolver projectDependenciesResolver, Log log) {
 		this.project = project;
 		this.repositorySystemSession = repositorySystemSession;
 		this.projectDependenciesResolver = projectDependenciesResolver;
+		this.log = log;
 	}
 
 	public Set<BundleArtifact> getBundleDependencies(String...scopes) throws MojoExecutionException {
@@ -108,7 +109,7 @@ public class MavenOsgiUtils {
 				bundleArtifacts.add(new BundleArtifact(artifact, symbolicName, version));
 				bundleArtifacts.addAll(getBundleArtifacts(node.getChildren()));
 			} else {
-				System.out.println("Not bundle" + artifact.getId());
+				log.warn("Not an OSGi bundle : " + artifact.getId());
 			}
 		}
 		return bundleArtifacts;

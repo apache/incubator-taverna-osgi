@@ -86,7 +86,7 @@ public class TavernaPluginGenerateMojo extends AbstractMojo {
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		try {
 			osgiUtils = new MavenOsgiUtils(project, repositorySystemSession,
-					projectDependenciesResolver);
+					projectDependenciesResolver, getLog());
 			createPluginDefinition();
 		} catch (JAXBException e) {
 			throw new MojoExecutionException("Error generating Taverna plugin", e);
