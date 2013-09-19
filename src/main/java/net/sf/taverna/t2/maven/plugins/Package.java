@@ -20,17 +20,27 @@
  ******************************************************************************/
 package net.sf.taverna.t2.maven.plugins;
 
-import java.util.Set;
-
+import aQute.bnd.version.VersionRange;
 
 /**
- *
- *
  * @author David Withers
  */
 public class Package {
 
 	private String name;
-	private Set<PackageVersion> packageVersions;
+	private VersionRange versionRange;
 
+	public Package(String name, VersionRange versionRange) {
+		this.name = name;
+		this.versionRange = versionRange;
+	}
+
+	@Override
+	public String toString() {
+		if (versionRange == null) {
+			return name;
+		} else {
+			return name + ";version=\"" + versionRange + "\"";
+		}
+	}
 }

@@ -44,6 +44,20 @@ public class PackageVersion {
 		return versionRange + "(from " + artifact.getId() + ")";
 	}
 
+	public VersionRange getVersionRange() {
+		return versionRange;
+	}
 
+	public void setVersionRange(VersionRange versionRange) {
+		this.versionRange = versionRange;
+	}
+
+	public Artifact getArtifact() {
+		return artifact;
+	}
+
+	public void setArtifact(Artifact artifact) {
+		this.artifact = artifact;
+	}
 
 }

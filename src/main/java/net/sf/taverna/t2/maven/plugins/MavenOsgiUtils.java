@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
@@ -57,8 +58,6 @@ import aQute.bnd.version.Version;
 import aQute.bnd.version.VersionRange;
 
 /**
- *
- *
  * @author David Withers
  */
 public class MavenOsgiUtils {
@@ -76,7 +75,8 @@ public class MavenOsgiUtils {
 		this.log = log;
 	}
 
-	public Set<BundleArtifact> getBundleDependencies(String...scopes) throws MojoExecutionException {
+	public Set<BundleArtifact> getBundleDependencies(String... scopes)
+			throws MojoExecutionException {
 		ScopeDependencyFilter scopeFilter = new ScopeDependencyFilter(Arrays.asList(scopes), null);
 
 		DefaultDependencyResolutionRequest dependencyResolutionRequest = new DefaultDependencyResolutionRequest(
@@ -93,6 +93,7 @@ public class MavenOsgiUtils {
 
 		DependencyNode dependencyGraph = dependencyResolutionResult.getDependencyGraph();
 		if (dependencyGraph != null) {
+			checkBundleDependencies(dependencyGraph.getChildren());
 			return getBundleArtifacts(dependencyGraph.getChildren());
 		} else {
 			return new HashSet<BundleArtifact>();
@@ -115,18 +116,85 @@ public class MavenOsgiUtils {
 		return bundleArtifacts;
 	}
 
-	public List<BundleInfo> getBundles(Set<BundleArtifact> bundleDependencies) throws MojoExecutionException {
+	public Set<Artifact> getArtifacts(List<DependencyNode> nodes) {
+		Set<Artifact> artifacts = new HashSet<Artifact>();
+		for (DependencyNode node : nodes) {
+			Artifact artifact = RepositoryUtils.toArtifact(node.getDependency().getArtifact());
+			if (isBundle(artifact)) {
+				artifacts.add(artifact);
+				artifacts.addAll(getArtifacts(node.getChildren()));
+			}
+		}
+		return artifacts;
+	}
+
+	public List<BundleInfo> getBundles(Set<BundleArtifact> bundleDependencies)
+			throws MojoExecutionException {
 		List<BundleInfo> bundles = new ArrayList<BundleInfo>();
 		for (BundleArtifact bundleArtifact : bundleDependencies) {
 			Artifact artifact = bundleArtifact.getArtifact();
 			BundleInfo bundle = new BundleInfo();
 			bundle.setSymbolicName(bundleArtifact.getSymbolicName());
 			bundle.setVersion(bundleArtifact.getVersion());
-			bundle.setFileName(new File(artifact.getGroupId(), artifact.getFile().getName()).getPath());
+			bundle.setFileName(new File(artifact.getGroupId(), artifact.getFile().getName())
+					.getPath());
 			bundles.add(bundle);
 		}
 		Collections.sort(bundles, new BundleComparator());
 		return bundles;
+	}
+
+	public void checkBundleDependencies(List<DependencyNode> nodes) {
+		Map<Artifact, Set<Package>> unresolvedArtifacts = new HashMap<Artifact, Set<Package>>();
+		Set<Artifact> artifacts = getArtifacts(nodes);
+		Map<String, Set<PackageVersion>> exports = calculatePackageVersions(artifacts, true);
+		for (Artifact artifact : artifacts) {
+			if (isBundle(artifact)) {
+				Parameters imports = getManifestAttributeParameters(artifact,
+						Constants.IMPORT_PACKAGE);
+				if (imports != null) {
+					for (String packageName : imports.keySet()) {
+						boolean exportMissing = true;
+						VersionRange importRange = null;
+						Attrs attrs = imports.get(packageName);
+						if (isOptional(attrs)) {
+							exportMissing = false;
+						} else if (packageName.startsWith("javax.") || packageName.startsWith("org.osgi.")) {
+							exportMissing = false;
+						} else if (attrs == null || attrs.get(Constants.VERSION_ATTRIBUTE) == null) {
+							if (exports.containsKey(packageName)) {
+								exportMissing = false;
+							}
+						} else {
+							importRange = getVersionRange(attrs);
+							if (exports.containsKey(packageName)) {
+								for (PackageVersion exportVersion : exports.get(packageName)) {
+									if (importRange.includes(exportVersion.getVersionRange()
+											.getLow())) {
+										exportMissing = false;
+										break;
+									}
+								}
+							}
+						}
+						if (exportMissing) {
+							if (!unresolvedArtifacts.containsKey(artifact)) {
+								unresolvedArtifacts.put(artifact, new HashSet<Package>());
+							}
+							unresolvedArtifacts.get(artifact).add(
+									new Package(packageName, importRange));
+						}
+					}
+				}
+			}
+		}
+		for (Entry<Artifact, Set<Package>> unresolvedArtifact : unresolvedArtifacts.entrySet()) {
+			log.warn("Bundle : " + unresolvedArtifact.getKey().getId()
+					+ " has unresolved package dependencies:");
+			for (Package unresolvedPackage : unresolvedArtifact.getValue()) {
+				log.warn("    " + unresolvedPackage);
+			}
+		}
 	}
 
 	public Map<String, Set<PackageVersion>> calculatePackageVersions(Set<Artifact> artifacts,
@@ -136,13 +204,15 @@ public class MavenOsgiUtils {
 			if (isBundle(artifact)) {
 				Parameters exports = getManifestAttributeParameters(artifact,
 						export ? Constants.EXPORT_PACKAGE : Constants.IMPORT_PACKAGE);
-				for (String packageName : exports.keySet()) {
-					if (!packageVersions.containsKey(packageName)) {
-						packageVersions.put(packageName, new HashSet<PackageVersion>());
+				if (exports != null) {
+					for (String packageName : exports.keySet()) {
+						if (!packageVersions.containsKey(packageName)) {
+							packageVersions.put(packageName, new HashSet<PackageVersion>());
+						}
+						packageVersions.get(packageName).add(
+								new PackageVersion(getVersionRange(exports.get(packageName)),
+										artifact));
 					}
-					packageVersions.get(packageName)
-							.add(new PackageVersion(getVersionRange(exports.get(packageName)),
-									artifact));
 				}
 			}
 		}
@@ -169,6 +239,10 @@ public class MavenOsgiUtils {
 
 	public boolean isBundle(Artifact artifact) {
 		return getManifestAttribute(artifact, Constants.BUNDLE_SYMBOLICNAME) != null;
+	}
+
+	public boolean isOptional(Attrs attrs) {
+		return attrs != null && "optional".equals(attrs.get(Constants.RESOLUTION_DIRECTIVE));
 	}
 
 	public Parameters getManifestAttributeParameters(Artifact artifact, String attributeName) {
