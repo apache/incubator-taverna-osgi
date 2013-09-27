@@ -4,10 +4,11 @@
 	<parent>
 		<groupId>uk.org.taverna.osgi</groupId>
 		<artifactId>osgi-services</artifactId>
-		<version>0.1.1-SNAPSHOT</version>
+		<version>0.1.1</version>
 	</parent>
 	<groupId>uk.org.taverna.osgi.services</groupId>
 	<artifactId>xml-parser-service</artifactId>
+	<version>0.1.1</version>
 	<packaging>bundle</packaging>
 	<name>XML Parser Service</name>
 	<description>Implementation of XML Parser Service Specification, Version 1.0</description>
@@ -29,8 +30,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.enterprise</artifactId>
-			<version>4.2.0</version>
+			<artifactId>org.osgi.compendium</artifactId>
+			<version>4.3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xerces</groupId>

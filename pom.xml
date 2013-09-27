@@ -8,9 +8,9 @@
 	</parent>
 	<groupId>uk.org.taverna.osgi</groupId>
 	<artifactId>osgi-services</artifactId>
-	<version>0.1.1-SNAPSHOT</version>
+	<version>0.1.1</version>
 	<name>OSGi Enterprise Service Implementations</name>
-	<description>Implementations of services specified in the OSGi Service Platform Enterprise Specification, Release 4, Version 4.2.</description>
+	<description>Implementations of services specified in the OSGi Service Platform Service Compendium, Release 4, Version 4.3</description>
 	<packaging>pom</packaging>
 	<modules>
 		<module>xml-parser-service</module>
