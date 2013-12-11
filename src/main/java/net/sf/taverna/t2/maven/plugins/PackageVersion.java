@@ -33,15 +33,21 @@ public class PackageVersion {
 
 	private VersionRange versionRange;
 	private Artifact artifact;
+	private boolean optional;
 
 	public PackageVersion(VersionRange versionRange, Artifact artifact) {
+		this(versionRange, artifact, false);
+	}
+
+	public PackageVersion(VersionRange versionRange, Artifact artifact, boolean optional) {
 		this.versionRange = versionRange;
 		this.artifact = artifact;
+		this.optional = optional;
 	}
 
 	@Override
 	public String toString() {
-		return versionRange + "(from " + artifact.getId() + ")";
+		return versionRange + (optional ? "" : "") + "(from " + artifact.getId() + ")";
 	}
 
 	public VersionRange getVersionRange() {
@@ -58,6 +64,14 @@ public class PackageVersion {
 
 	public void setArtifact(Artifact artifact) {
 		this.artifact = artifact;
+	}
+
+	public boolean isOptional() {
+		return optional;
+	}
+
+	public void setOptional(boolean optional) {
+		this.optional = optional;
 	}
 
 }

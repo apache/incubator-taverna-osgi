@@ -22,6 +22,7 @@ package net.sf.taverna.t2.maven.plugins;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -57,6 +58,8 @@ import uk.org.taverna.commons.profile.xml.jaxb.Updates;
  */
 @Mojo(name = "profile-generate", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, requiresDependencyResolution = ResolutionScope.RUNTIME)
 public class TavernaProfileGenerateMojo extends AbstractMojo {
+
+	public static final String SYSTEM_PACKAGES = "org.osgi.framework.system.packages.extra";
 
 	public static final String SCHEMA_LOCATION = "http://ns.taverna.org.uk/2013/application/profile http://localhost/2013/application/profile/ApplicationProfile.xsd";
 
@@ -109,7 +112,7 @@ public class TavernaProfileGenerateMojo extends AbstractMojo {
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		try {
 			osgiUtils = new MavenOsgiUtils(project, repositorySystemSession,
-					projectDependenciesResolver, getLog());
+					projectDependenciesResolver, getSystemPackages(), getLog());
 			tempDirectory = new File(outputDirectory, TAVERNA_TMP);
 
 			File profileFile = createApplicationProfile();
@@ -117,18 +120,6 @@ public class TavernaProfileGenerateMojo extends AbstractMojo {
 
 			copyDependencies();
 
-			// ArtifactResolutionResult result =
-			// osgiUtils.calculateDependencies(Artifact.SCOPE_RUNTIME);
-			// Map<String, Set<PackageVersion>> exports = osgiUtils.calculatePackageVersions(result,
-			// true);
-			// for (String packageName : exports.keySet()) {
-			// System.out.println(packageName + " versions " + exports.get(packageName));
-			// }
-			// Map<String, Set<PackageVersion>> imports = osgiUtils.calculatePackageVersions(result,
-			// false);
-			// for (String packageName : imports.keySet()) {
-			// System.out.println(packageName + " versions " + imports.get(packageName));
-			// }
 		} catch (JAXBException e) {
 			throw new MojoExecutionException("Error generating application profile", e);
 		}
@@ -204,6 +195,27 @@ public class TavernaProfileGenerateMojo extends AbstractMojo {
 		marshaller.marshal(applicationProfile, applicationProfileFile);
 
 		return applicationProfileFile;
+	}
+
+	private Set<String> getSystemPackages() {
+		Set<String> systemPackages = new HashSet<String>();
+		if (frameworkConfigurations != null) {
+			for (FrameworkConfiguration configuration : frameworkConfigurations) {
+				if (SYSTEM_PACKAGES.equals(configuration.getName())) {
+					String packagesString = configuration.getValue();
+					if (packagesString != null) {
+						String[] packages = packagesString.split(",");
+						for (String packageString : packages) {
+							String[] packageProperties = packageString.split(";");
+							if (packageProperties.length > 0) {
+								systemPackages.add(packageProperties[0]);
+							}
+						}
+					}
+				}
+			}
+		}
+		return systemPackages;
 	}
 
 }

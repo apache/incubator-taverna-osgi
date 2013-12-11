@@ -67,12 +67,24 @@ public class MavenOsgiUtils {
 	private final ProjectDependenciesResolver projectDependenciesResolver;
 	private final Log log;
 
+	private Set<String> javaPackages;
+	private Set<String> systemPackages;
+
 	public MavenOsgiUtils(MavenProject project, RepositorySystemSession repositorySystemSession,
 			ProjectDependenciesResolver projectDependenciesResolver, Log log) {
+		this(project, repositorySystemSession, projectDependenciesResolver, new HashSet<String>(),
+				log);
+	}
+
+	public MavenOsgiUtils(MavenProject project, RepositorySystemSession repositorySystemSession,
+			ProjectDependenciesResolver projectDependenciesResolver, Set<String> systemPackages,
+			Log log) {
 		this.project = project;
 		this.repositorySystemSession = repositorySystemSession;
 		this.projectDependenciesResolver = projectDependenciesResolver;
+		this.systemPackages = systemPackages;
 		this.log = log;
+		javaPackages = Utils.getJavaPackages(log);
 	}
 
 	public Set<BundleArtifact> getBundleDependencies(String... scopes)
@@ -116,13 +128,24 @@ public class MavenOsgiUtils {
 		return bundleArtifacts;
 	}
 
+	public Set<Artifact> getAllArtifacts(List<DependencyNode> nodes) {
+		Set<Artifact> artifacts = new HashSet<Artifact>();
+		for (DependencyNode node : nodes) {
+			Artifact artifact = RepositoryUtils.toArtifact(node.getDependency().getArtifact());
+			if (isBundle(artifact)) {
+				artifacts.add(artifact);
+				artifacts.addAll(getAllArtifacts(node.getChildren()));
+			}
+		}
+		return artifacts;
+	}
+
 	public Set<Artifact> getArtifacts(List<DependencyNode> nodes) {
 		Set<Artifact> artifacts = new HashSet<Artifact>();
 		for (DependencyNode node : nodes) {
 			Artifact artifact = RepositoryUtils.toArtifact(node.getDependency().getArtifact());
 			if (isBundle(artifact)) {
 				artifacts.add(artifact);
-				artifacts.addAll(getArtifacts(node.getChildren()));
 			}
 		}
 		return artifacts;
@@ -144,10 +167,84 @@ public class MavenOsgiUtils {
 		return bundles;
 	}
 
+	public Map<String, Set<PackageVersion>> getPackageDependencies(List<DependencyNode> nodes) {
+		Map<String, Set<PackageVersion>> exportVersions = calculatePackageVersions(
+				getAllArtifacts(nodes), true, false);
+		return getPackageDependencies(getArtifacts(nodes), exportVersions);
+	}
+
+	public Map<String, Set<PackageVersion>> getPackageDependencies(Set<Artifact> requiredArtifacts,
+			Map<String, Set<PackageVersion>> exportVersions) {
+		Map<String, Set<PackageVersion>> importVersions = calculatePackageVersions(
+				requiredArtifacts, false, true);
+		Set<Artifact> newRequiredArtifacts = new HashSet<Artifact>();
+		for (Entry<String, Set<PackageVersion>> entry : importVersions.entrySet()) {
+			if (!javaPackages.contains(entry.getKey())) {
+				String packageName = entry.getKey();
+				Set<PackageVersion> importsVersions = entry.getValue();
+				Set<PackageVersion> exportsVersions = exportVersions.get(packageName);
+				if (exportVersions.containsKey(entry.getKey())) {
+					for (Artifact artifact : getRequiredArtifacts(importsVersions, exportsVersions)) {
+						if (!requiredArtifacts.contains(artifact)) {
+							newRequiredArtifacts.add(artifact);
+						}
+					}
+				}
+			}
+		}
+		if (!newRequiredArtifacts.isEmpty()) {
+			newRequiredArtifacts.addAll(requiredArtifacts);
+			return getPackageDependencies(newRequiredArtifacts, exportVersions);
+		}
+		return importVersions;
+	}
+
+	/**
+	 * Returns the minimum set of artifacts required to satisfy the range of importVersions.
+	 *
+	 * @param importsVersions
+	 *            the version ranges required for the package
+	 * @param exportVersions
+	 *            the available versions for the package
+	 * @return the minimum set of artifacts required to satisfy the range of importVersions
+	 */
+	private Set<Artifact> getRequiredArtifacts(Set<PackageVersion> importsVersions,
+			Set<PackageVersion> exportVersions) {
+		Set<Artifact> requiredArtifacts = new HashSet<Artifact>();
+		List<Set<PackageVersion>> exportsSubsets = Utils.getSubsets(exportVersions);
+		for (Set<PackageVersion> exportsSubset : exportsSubsets) {
+			if (satisfiesImports(importsVersions, exportsSubset)) {
+				for (PackageVersion exportVersion : exportsSubset) {
+					requiredArtifacts.add(exportVersion.getArtifact());
+				}
+				break;
+			}
+		}
+		return requiredArtifacts;
+	}
+
+	private boolean satisfiesImports(Set<PackageVersion> imports, Set<PackageVersion> exports) {
+		for (PackageVersion importVersion : imports) {
+			if (!satisfiesImport(importVersion, exports)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean satisfiesImport(PackageVersion importVersion, Set<PackageVersion> exports) {
+		for (PackageVersion exportVersion : exports) {
+			if (importVersion.getVersionRange().includes(exportVersion.getVersionRange().getLow())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void checkBundleDependencies(List<DependencyNode> nodes) {
 		Map<Artifact, Set<Package>> unresolvedArtifacts = new HashMap<Artifact, Set<Package>>();
-		Set<Artifact> artifacts = getArtifacts(nodes);
-		Map<String, Set<PackageVersion>> exports = calculatePackageVersions(artifacts, true);
+		Set<Artifact> artifacts = getAllArtifacts(nodes);
+		Map<String, Set<PackageVersion>> exports = calculatePackageVersions(artifacts, true, false);
 		for (Artifact artifact : artifacts) {
 			if (isBundle(artifact)) {
 				Parameters imports = getManifestAttributeParameters(artifact,
@@ -159,7 +256,9 @@ public class MavenOsgiUtils {
 						Attrs attrs = imports.get(packageName);
 						if (isOptional(attrs)) {
 							exportMissing = false;
-						} else if (packageName.startsWith("javax.") || packageName.startsWith("org.osgi.")) {
+						} else if (javaPackages.contains(packageName)
+								|| systemPackages.contains(packageName)
+								|| packageName.startsWith("org.osgi.")) {
 							exportMissing = false;
 						} else if (attrs == null || attrs.get(Constants.VERSION_ATTRIBUTE) == null) {
 							if (exports.containsKey(packageName)) {
@@ -198,20 +297,35 @@ public class MavenOsgiUtils {
 	}
 
 	public Map<String, Set<PackageVersion>> calculatePackageVersions(Set<Artifact> artifacts,
-			boolean export) {
+			boolean export, boolean unique) {
 		Map<String, Set<PackageVersion>> packageVersions = new HashMap<String, Set<PackageVersion>>();
 		for (Artifact artifact : artifacts) {
 			if (isBundle(artifact)) {
-				Parameters exports = getManifestAttributeParameters(artifact,
+				Parameters packages = getManifestAttributeParameters(artifact,
 						export ? Constants.EXPORT_PACKAGE : Constants.IMPORT_PACKAGE);
-				if (exports != null) {
-					for (String packageName : exports.keySet()) {
+				if (packages != null) {
+					for (String packageName : packages.keySet()) {
 						if (!packageVersions.containsKey(packageName)) {
 							packageVersions.put(packageName, new HashSet<PackageVersion>());
 						}
-						packageVersions.get(packageName).add(
-								new PackageVersion(getVersionRange(exports.get(packageName)),
-										artifact));
+						Set<PackageVersion> versions = packageVersions.get(packageName);
+						VersionRange versionRange = getVersionRange(packages.get(packageName));
+						boolean optional = isOptional(packages.get(packageName));
+						if (unique) {
+							// check if this version range is unique
+							boolean uniqueVersion = true;
+							for (PackageVersion version : versions) {
+								if (equals(versionRange, version.getVersionRange())) {
+									uniqueVersion = false;
+									break;
+								}
+							}
+							if (uniqueVersion) {
+								versions.add(new PackageVersion(versionRange, artifact, optional));
+							}
+						} else {
+							versions.add(new PackageVersion(versionRange, artifact, optional));
+						}
 					}
 				}
 			}
@@ -243,6 +357,10 @@ public class MavenOsgiUtils {
 
 	public boolean isOptional(Attrs attrs) {
 		return attrs != null && "optional".equals(attrs.get(Constants.RESOLUTION_DIRECTIVE));
+	}
+
+	public boolean equals(VersionRange v1, VersionRange v2) {
+		return v1 == v2 || v1.toString().equals(v2.toString());
 	}
 
 	public Parameters getManifestAttributeParameters(Artifact artifact, String attributeName) {

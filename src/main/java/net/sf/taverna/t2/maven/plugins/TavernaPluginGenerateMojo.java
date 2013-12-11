@@ -118,8 +118,6 @@ public class TavernaPluginGenerateMojo extends AbstractMojo {
 		pluginInfo.setVersion(version);
 		pluginInfo.setDescription(description);
 		pluginInfo.setOrganization(organization.getName());
-		System.out.println(organization.getName());
-		System.out.println(project.getOrganization().getName());
 
 		Set<BundleArtifact> bundleDependencies = osgiUtils.getBundleDependencies(
 				Artifact.SCOPE_COMPILE, Artifact.SCOPE_RUNTIME);

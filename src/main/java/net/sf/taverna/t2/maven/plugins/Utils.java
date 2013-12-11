@@ -20,12 +20,21 @@
  ******************************************************************************/
 package net.sf.taverna.t2.maven.plugins;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -37,8 +46,6 @@ import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.authorization.AuthorizationException;
 
 /**
- *
- *
  * @author David Withers
  */
 public class Utils {
@@ -109,8 +116,56 @@ public class Utils {
 	}
 
 	public static String timestamp() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'T'HHmm");
-        return dateFormat.format(new Date());
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'T'HHmm");
+		return dateFormat.format(new Date());
+	}
+
+	public static Set<String> getJavaPackages(Log log) {
+		Set<String> javaPackages = new HashSet<String>();
+		InputStream resource = Utils.class.getClassLoader().getResourceAsStream("java7-packages");
+		if (resource != null) {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(resource));
+			try {
+				String line = reader.readLine();
+				while (line != null) {
+					if (!line.isEmpty()) {
+						javaPackages.add(line.trim());
+					}
+					line = reader.readLine();
+				}
+			} catch (IOException e) {
+				log.warn(
+						"Problem while reading to readinf java package list from resource file java7-packages",
+						e);
+			}
+		} else {
+			log.warn("Unable to read java package list from resource file java7-packages");
+		}
+		return javaPackages;
+	}
+
+	public static <T> List<Set<T>> getSubsets(Set<T> set) {
+		List<Set<T>> subsets = new ArrayList<Set<T>>();
+        List<T> list = new ArrayList<T>(set);
+		int numOfSubsets = 1 << set.size();
+		for (int i = 0; i < numOfSubsets; i++){
+			Set<T> subset = new HashSet<T>();
+		    for (int j = 0; j < numOfSubsets; j++){
+		        if (((i>>j) & 1) == 1) {
+		            subset.add(list.get(j));
+		        }
+		    }
+		    if (!subset.isEmpty()) {
+		    	subsets.add(subset);
+		    }
+		}
+		Collections.sort(subsets, new Comparator<Set<T>>() {
+			@Override
+			public int compare(Set<T> o1, Set<T> o2) {
+				return o1.size() - o2.size();
+			}
+		});
+		return subsets;
 	}
 
 }
