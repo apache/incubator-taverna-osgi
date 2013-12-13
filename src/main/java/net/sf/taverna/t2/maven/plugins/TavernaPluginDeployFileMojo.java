@@ -20,7 +20,15 @@
  ******************************************************************************/
 package net.sf.taverna.t2.maven.plugins;
 
+import static net.sf.taverna.t2.maven.plugins.TavernaPluginGenerateMojo.META_INF_TAVERNA;
+import static net.sf.taverna.t2.maven.plugins.TavernaPluginGenerateMojo.PLUGIN_FILE;
+
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -28,8 +36,8 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.wagon.ConnectionException;
 import org.apache.maven.wagon.ResourceDoesNotExistException;
 import org.apache.maven.wagon.UnsupportedProtocolException;
@@ -45,36 +53,48 @@ import uk.org.taverna.commons.versions.xml.jaxb.Version;
 
 /**
  * Deploys the Taverna plugin using <code>scp</code> or <code>file</code> protocol to the site URL
- * specified in the <code>&lt;distributionManagement&gt;</code> section of the POM.
+ * specified.
  *
  * @author David Withers
  */
-@Mojo(name = "plugin-deploy", defaultPhase = LifecyclePhase.DEPLOY)
-public class TavernaPluginDeployMojo extends AbstractDeployMojo {
+@Mojo(name = "plugin-deploy-file", requiresProject=false, requiresDirectInvocation = true)
+public class TavernaPluginDeployFileMojo extends AbstractWagonMojo {
+
+	private static final String PLUGIN_FILE_ENTRY = META_INF_TAVERNA + "/" + PLUGIN_FILE;
 
 	private static final String PLUGINS_FILE = "plugins.xml";
 
-	private File tempDirectory;
+	@Parameter(defaultValue = "http://updates.taverna.org.uk/workbench/3.0/dev/", required = true)
+	protected String site;
+
+	@Parameter(property = "file", required = true)
+	protected File file;
+
+	@Parameter(property = "url", required = true)
+	protected String url;
+
+	@Parameter(property = "serverId", required = true)
+	protected String serverId;
 
 	public void execute() throws MojoExecutionException {
-		tempDirectory = new File(buildDirectory, TavernaProfileGenerateMojo.TAVERNA_TMP);
-		tempDirectory.mkdirs();
-		if (artifact == null) {
-			throw new MojoExecutionException(
-					"The Taverna Plugin does not exist, please run taverna:plugin-generate first");
+		if (!file.exists()) {
+			throw new MojoExecutionException("The Taverna Plugin file " + file
+					+ " does not exist");
 		}
 
-		File artifactFile = artifact.getFile();
-		if (artifactFile == null) {
-			throw new MojoExecutionException(
-					"The Taverna Plugin does not exist, please run taverna:plugin-generate first");
+		JarFile pluginJarFile;
+		try {
+			pluginJarFile = new JarFile(file);
+		} catch (ZipException e) {
+			throw new MojoExecutionException(file + " is not a valid Taverna Plugin file", e);
+		} catch (IOException e) {
+			throw new MojoExecutionException("Error opening Taverna Plugin file: " + file, e);
 		}
 
-		File pluginDirectory = new File(outputDirectory, TavernaPluginGenerateMojo.META_INF_TAVERNA);
-		File pluginFile = new File(pluginDirectory, TavernaPluginGenerateMojo.PLUGIN_FILE);
-		if (!pluginFile.exists()) {
-			throw new MojoExecutionException(
-					"The Taverna Plugin does not exist, please run taverna:plugin-generate first");
+		ZipEntry pluginFileEntry = pluginJarFile.getJarEntry(PLUGIN_FILE_ENTRY);
+		if (pluginFileEntry == null) {
+			throw new MojoExecutionException(file
+					+ " is not a valid Taverna Plugin file, missing " + PLUGIN_FILE_ENTRY);
 		}
 
 		JAXBContext jaxbContext;
@@ -86,27 +106,19 @@ public class TavernaPluginDeployMojo extends AbstractDeployMojo {
 
 		PluginInfo plugin;
 		try {
+			InputStream inputStream = pluginJarFile.getInputStream(pluginFileEntry);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-			plugin = (PluginInfo) unmarshaller.unmarshal(pluginFile);
+			plugin = (PluginInfo) unmarshaller.unmarshal(inputStream);
+			inputStream.close();
+		} catch (IOException e) {
+			throw new MojoExecutionException("Error reading " + file, e);
 		} catch (JAXBException e) {
-			throw new MojoExecutionException("Error reading " + pluginFile, e);
+			throw new MojoExecutionException("Error reading " + file, e);
 		}
 
-		if (deploymentRepository == null) {
-			throw new MojoExecutionException(
-					"Missing repository information in the distribution management element in the project.");
-		}
-
-		String url = deploymentRepository.getUrl();
-		String id = deploymentRepository.getId();
-
-		if (url == null) {
-			throw new MojoExecutionException(
-					"The URL to the Taverna plugin site is missing in the project descriptor.");
-		}
 		getLog().debug("The Taverna plugin will be deployed to '" + url + "'");
 
-		Repository repository = new Repository(id, url);
+		Repository repository = new Repository(serverId, url);
 
 		// create the wagon
 		Wagon wagon;
@@ -125,7 +137,7 @@ public class TavernaPluginDeployMojo extends AbstractDeployMojo {
 
 		// connect to the plugin site
 		try {
-			wagon.connect(repository, wagonManager.getAuthenticationInfo(id),
+			wagon.connect(repository, wagonManager.getAuthenticationInfo(serverId),
 					wagonManager.getProxy(repository.getProtocol()));
 		} catch (ConnectionException e) {
 			throw new MojoExecutionException("Error connecting to plugin site at " + url, e);
@@ -135,12 +147,10 @@ public class TavernaPluginDeployMojo extends AbstractDeployMojo {
 		}
 
 		try {
-			String deployedPluginFile = project.getGroupId() + "." + project.getArtifactId() + "-"
-					+ plugin.getVersion() + ".jar";
+			File pluginsFile = File.createTempFile("taverna", null);
 
 			// fetch the plugins file
 			Plugins plugins;
-			File pluginsFile = new File(tempDirectory, PLUGINS_FILE);
 			try {
 				Utils.downloadFile(PLUGINS_FILE, pluginsFile, wagon, getLog());
 				try {
@@ -153,6 +163,8 @@ public class TavernaPluginDeployMojo extends AbstractDeployMojo {
 				getLog().info("Creating new plugins file");
 				plugins = new Plugins();
 			}
+
+			String deployedPluginFile = plugin.getId() + "-" + plugin.getVersion() + ".jar";
 
 			if (addPlugin(plugins, plugin, deployedPluginFile)) {
 				// write the new plugin site file
@@ -167,10 +179,12 @@ public class TavernaPluginDeployMojo extends AbstractDeployMojo {
 				}
 
 				// upload the plugin to the update site
-				Utils.uploadFile(artifactFile, deployedPluginFile, wagon, getLog());
+				Utils.uploadFile(file, deployedPluginFile, wagon, getLog());
 				// upload the plugin site file
 				Utils.uploadFile(pluginsFile, PLUGINS_FILE, wagon, getLog());
 			}
+		} catch (IOException e) {
+			throw new MojoExecutionException("Error writing " + PLUGINS_FILE, e);
 		} finally {
 			disconnectWagon(wagon, debug);
 		}
@@ -181,8 +195,8 @@ public class TavernaPluginDeployMojo extends AbstractDeployMojo {
 		Version latestVersion = plugin.getLatestVersion();
 		if (latestVersion != null && latestVersion.getVersion().equals(pluginInfo.getVersion())) {
 			getLog().error(
-					String.format("%1$s version %2$s has already been deployed", pluginInfo.getName(),
-							pluginInfo.getVersion()));
+					String.format("%1$s version %2$s has already been deployed",
+							pluginInfo.getName(), pluginInfo.getVersion()));
 			return false;
 		}
 		Version newPluginVersion = new Version();
@@ -190,7 +204,8 @@ public class TavernaPluginDeployMojo extends AbstractDeployMojo {
 		newPluginVersion.setFile(pluginURL);
 
 		getLog().info(
-				String.format("Adding %1$s version %2$s", pluginInfo.getName(), pluginInfo.getVersion()));
+				String.format("Adding %1$s version %2$s", pluginInfo.getName(),
+						pluginInfo.getVersion()));
 		if (plugin.getLatestVersion() != null) {
 			plugin.getPreviousVersion().add(plugin.getLatestVersion());
 		}

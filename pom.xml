@@ -35,14 +35,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- <plugin> <groupId>org.jvnet.jaxb2.maven2</groupId> <artifactId>maven-jaxb2-plugin</artifactId>
-				<version>0.8.3</version> <configuration> <forceRegenerate>true</forceRegenerate>
-				<schemas> <schema> Use real url when deployed <url>http://ns.taverna.org.uk/2013/application/profile/ApplicationProfile.xsd</url>
-				<url>http://localhost/2013/application/profile/ApplicationProfile.xsd</url>
-				</schema> <schema> Use real url when deployed <url>http://ns.taverna.org.uk/2013/application/plugin/ApplicationPlugin.xsd</url>
-				<url>http://localhost/2013/application/plugin/ApplicationPlugin.xsd</url>
-				</schema> </schemas> </configuration> <executions> <execution> <goals> <goal>generate</goal>
-				</goals> </execution> </executions> </plugin> -->
 		</plugins>
 	</build>
 	<dependencies>
@@ -72,18 +64,11 @@
 			<artifactId>maven-osgi</artifactId>
 			<version>0.2.0</version>
 		</dependency>
-		<!-- <dependency>
-			<groupId>org.apache.maven.wagon</groupId>
-			<artifactId>wagon-file</artifactId>
-			<version>2.4</version>
-		</dependency> -->
 		<dependency>
 			<groupId>uk.org.taverna.commons</groupId>
 			<artifactId>taverna-xml-schemas</artifactId>
 			<version>0.1.0-SNAPSHOT</version>
 		</dependency>
-		<!-- <dependency> <groupId>org.apache.felix</groupId> <artifactId>maven-bundle-plugin</artifactId>
-			<version>2.3.7</version> </dependency> -->
 
 		<dependency>
 			<groupId>biz.aQute</groupId>

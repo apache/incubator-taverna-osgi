@@ -20,37 +20,41 @@
  ******************************************************************************/
 package net.sf.taverna.t2.maven.plugins;
 
-import java.io.File;
-
-import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.repository.ArtifactRepository;
+import org.apache.maven.artifact.manager.WagonManager;
+import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Component;
-import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
+import org.apache.maven.wagon.ConnectionException;
+import org.apache.maven.wagon.Wagon;
+import org.apache.maven.wagon.observers.Debug;
 
 /**
- * Abstract Mojo for deploying artifacts.
+ * Abstract Mojo for using the wagon.
  *
  * @author David Withers
  */
-public abstract class AbstractDeployMojo extends AbstractWagonMojo {
+public abstract class AbstractWagonMojo extends AbstractMojo {
 
 	@Component
-	protected MavenProject project;
+	protected WagonManager wagonManager;
 
 	/**
-	 * Directory containing the generated Taverna plugin.
+	 * Disconnect the wagon.
+	 *
+	 * @param wagon
+	 *            the wagon to disconnect
+	 * @param debug
 	 */
-	@Parameter(defaultValue = "${project.build.directory}", required = true)
-	protected File buildDirectory;
+	protected void disconnectWagon(Wagon wagon, Debug debug) {
+		if (getLog().isDebugEnabled()) {
+			wagon.removeTransferListener(debug);
+			wagon.removeSessionListener(debug);
+		}
+		try {
+			wagon.disconnect();
+		} catch (ConnectionException e) {
+			getLog().error("Error disconnecting wagon - ignored", e);
+		}
+	}
 
-	@Parameter(defaultValue = "${project.build.outputDirectory}", required = true)
-	protected File outputDirectory;
-
-	@Parameter(defaultValue = "${project.artifact}", required = true, readonly = true)
-	protected Artifact artifact;
-
-	@Parameter(defaultValue = "${project.distributionManagementArtifactRepository}", required = true, readonly = true)
-	protected ArtifactRepository deploymentRepository;
 
 }
