@@ -42,7 +42,7 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.ProjectDependenciesResolver;
 import org.apache.maven.shared.osgi.DefaultMaven2OsgiConverter;
 import org.apache.maven.shared.osgi.Maven2OsgiConverter;
-import org.sonatype.aether.RepositorySystemSession;
+import org.eclipse.aether.RepositorySystemSession;
 
 import uk.org.taverna.commons.plugin.xml.jaxb.PluginInfo;
 import uk.org.taverna.commons.profile.xml.jaxb.BundleInfo;
@@ -83,6 +83,7 @@ public class TavernaPluginGenerateMojo extends AbstractMojo {
 
 	private Maven2OsgiConverter maven2OsgiConverter = new DefaultMaven2OsgiConverter();
 
+	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		try {
 			osgiUtils = new MavenOsgiUtils(project, repositorySystemSession,

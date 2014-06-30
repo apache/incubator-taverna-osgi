@@ -76,6 +76,7 @@ public class TavernaPluginDeployFileMojo extends AbstractWagonMojo {
 	@Parameter(property = "serverId", required = true)
 	protected String serverId;
 
+	@Override
 	public void execute() throws MojoExecutionException {
 		if (!file.exists()) {
 			throw new MojoExecutionException("The Taverna Plugin file " + file

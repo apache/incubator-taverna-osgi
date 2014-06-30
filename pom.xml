@@ -13,7 +13,7 @@
 	<name>Maven Taverna Plugin</name>
 	<description>A Maven plugin for packaging and deploying Taverna plugins</description>
 	<properties>
-		<maven.version>3.0.5</maven.version>
+		<maven.version>3.2.2</maven.version>
 		<mavenArchiverVersion>2.5</mavenArchiverVersion>
 	</properties>
 	<build>

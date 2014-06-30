@@ -56,6 +56,7 @@ public class TavernaPluginDeployMojo extends AbstractDeployMojo {
 
 	private File tempDirectory;
 
+	@Override
 	public void execute() throws MojoExecutionException {
 		tempDirectory = new File(buildDirectory, TavernaProfileGenerateMojo.TAVERNA_TMP);
 		tempDirectory.mkdirs();
