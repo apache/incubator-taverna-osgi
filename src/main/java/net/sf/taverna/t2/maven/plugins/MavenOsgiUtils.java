@@ -45,9 +45,9 @@ import org.apache.maven.project.DependencyResolutionException;
 import org.apache.maven.project.DependencyResolutionResult;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.ProjectDependenciesResolver;
-import org.sonatype.aether.RepositorySystemSession;
-import org.sonatype.aether.graph.DependencyNode;
-import org.sonatype.aether.util.filter.ScopeDependencyFilter;
+import org.eclipse.aether.RepositorySystemSession;
+import org.eclipse.aether.graph.DependencyNode;
+import org.eclipse.aether.util.filter.ScopeDependencyFilter;
 
 import uk.org.taverna.commons.profile.xml.jaxb.BundleInfo;
 import aQute.bnd.header.Attrs;

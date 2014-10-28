@@ -20,22 +20,9 @@
  ******************************************************************************/
 package net.sf.taverna.t2.maven.plugins;
 
-import java.io.File;
-import java.util.Collections;
-
-import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.DefaultArtifact;
-import org.apache.maven.artifact.repository.DefaultArtifactRepository;
-import org.apache.maven.artifact.repository.layout.DefaultRepositoryLayout;
-import org.apache.maven.artifact.versioning.VersionRange;
-import org.apache.maven.execution.MavenExecutionRequest;
-import org.apache.maven.execution.MavenExecutionResult;
-import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
-import org.apache.maven.project.MavenProject;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.sonatype.aether.RepositorySystemSession;
 
 /**
  * Unit tests for TavernaPluginGenerateMojo.
