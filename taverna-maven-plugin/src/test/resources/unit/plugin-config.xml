@@ -2,15 +2,15 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>net.sf.taverna.t2.maven.plugins</groupId>
+				<groupId>org.apache.taverna.osgi</groupId>
 				<artifactId>taverna-maven-plugin</artifactId>
 				<configuration>
 					<buildDirectory>${basedir}/target/test/unit</buildDirectory>
 					<project>
-						<groupId>net.sf.taverna.t2</groupId>
+						<groupId>com.example</groupId>
 						<artifactId>example-plugin</artifactId>
 						<version>0.1.0</version>
-						<name>Taverna 2 Example Plugin</name>
+						<name>Example Plugin</name>
 					</project>
 				</configuration>
 			</plugin>
