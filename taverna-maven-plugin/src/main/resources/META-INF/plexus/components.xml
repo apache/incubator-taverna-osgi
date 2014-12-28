@@ -7,10 +7,10 @@
 			</implementation>
 			<configuration>
 				<phases>
-					<generate-resources>net.sf.taverna.t2.maven.plugins:taverna-maven-plugin:plugin-generate</generate-resources>
-					<prepare-package>net.sf.taverna.t2.maven.plugins:taverna-maven-plugin:plugin-prepare-bundles</prepare-package>
+					<generate-resources>org.apache.taverna.osgi:taverna-maven-plugin:plugin-generate</generate-resources>
+					<prepare-package>org.apache.taverna.osgi:taverna-maven-plugin:plugin-prepare-bundles</prepare-package>
 					<package>org.apache.maven.plugins:maven-jar-plugin:jar</package>
-					<deploy>net.sf.taverna.t2.maven.plugins:taverna-maven-plugin:plugin-deploy</deploy>
+					<deploy>org.apache.taverna.osgi:taverna-maven-plugin:plugin-deploy</deploy>
 				</phases>
 			</configuration>
 		</component>
@@ -21,10 +21,8 @@
 			</implementation>
 			<configuration>
 				<phases>
-					<generate-resources>net.sf.taverna.t2.maven.plugins:taverna-maven-plugin:profile-generate
-					</generate-resources>
-					<deploy>net.sf.taverna.t2.maven.plugins:taverna-maven-plugin:profile-deploy
-					</deploy>
+					<generate-resources>org.apache.taverna.osgi:taverna-maven-plugin:profile-generate</generate-resources>
+					<deploy>org.apache.taverna.osgi:taverna-maven-plugin:profile-deploy</deploy>
 				</phases>
 			</configuration>
 		</component>
