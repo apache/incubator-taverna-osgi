@@ -2,18 +2,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>parent</artifactId>
-		<groupId>net.sf.taverna</groupId>
-		<version>0.2.2011-02-17</version>
+		<groupId>org.apache.taverna.osgi</groupId>
+		<artifactId>taverna-osgi</artifactId>
+		<version>0.2.0-incubating-SNAPSHOT</version>
 	</parent>
   <prerequisites>
       <maven>3.2.0</maven>
   </prerequisites>
-	<groupId>net.sf.taverna.t2.maven.plugins</groupId>
 	<artifactId>taverna-maven-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
-	<version>0.3.1-SNAPSHOT</version>
-	<name>Maven Taverna Plugin</name>
+	<name>Apache Taverna Maven Plugin</name>
 	<description>A Maven plugin for packaging and deploying Taverna plugins</description>
 	<properties>
 		<maven.version>3.2.3</maven.version>
@@ -68,9 +66,9 @@
 			<version>0.2.0</version>
 		</dependency>
 		<dependency>
-			<groupId>uk.org.taverna.commons</groupId>
-			<artifactId>taverna-xml-schemas</artifactId>
-			<version>0.1.0-SNAPSHOT</version>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>taverna-osgi-schemas</artifactId>
+			<version>${project.parent.version}</version>
 		</dependency>
 
 		<dependency>
@@ -103,25 +101,4 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<repositories>
-		<repository>
-			<releases />
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<id>mygrid-repository</id>
-			<name>myGrid Repository</name>
-			<url>http://www.mygrid.org.uk/maven/repository
-			</url>
-		</repository>
-		<repository>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots />
-			<id>mygrid-snapshot-repository</id>
-			<name>myGrid Snapshot Repository</name>
-			<url>http://www.mygrid.org.uk/maven/snapshot-repository</url>
-		</repository>
-	</repositories>
 </project>
