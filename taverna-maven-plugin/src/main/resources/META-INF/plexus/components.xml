@@ -1,0 +1,32 @@
+<component-set>
+	<components>
+		<component>
+			<role>org.apache.maven.lifecycle.mapping.LifecycleMapping</role>
+			<role-hint>taverna-plugin</role-hint>
+			<implementation>org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping
+			</implementation>
+			<configuration>
+				<phases>
+					<generate-resources>net.sf.taverna.t2.maven.plugins:taverna-maven-plugin:plugin-generate</generate-resources>
+					<prepare-package>net.sf.taverna.t2.maven.plugins:taverna-maven-plugin:plugin-prepare-bundles</prepare-package>
+					<package>org.apache.maven.plugins:maven-jar-plugin:jar</package>
+					<deploy>net.sf.taverna.t2.maven.plugins:taverna-maven-plugin:plugin-deploy</deploy>
+				</phases>
+			</configuration>
+		</component>
+		<component>
+			<role>org.apache.maven.lifecycle.mapping.LifecycleMapping</role>
+			<role-hint>taverna-application</role-hint>
+			<implementation>org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping
+			</implementation>
+			<configuration>
+				<phases>
+					<generate-resources>net.sf.taverna.t2.maven.plugins:taverna-maven-plugin:profile-generate
+					</generate-resources>
+					<deploy>net.sf.taverna.t2.maven.plugins:taverna-maven-plugin:profile-deploy
+					</deploy>
+				</phases>
+			</configuration>
+		</component>
+	</components>
+</component-set>
