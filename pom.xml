@@ -25,6 +25,7 @@
     <module>taverna-configuration-impl</module>
     <module>taverna-download-api</module>
     <module>taverna-download-impl</module>
+    <module>taverna-maven-plugin</module>
     <module>taverna-plugin-api</module>
     <module>taverna-plugin-impl</module>
     <module>taverna-update-api</module>
