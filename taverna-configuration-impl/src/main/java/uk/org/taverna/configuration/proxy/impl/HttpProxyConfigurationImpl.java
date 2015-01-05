@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.axis.AxisProperties;
+//import org.apache.axis.AxisProperties;
 import org.apache.log4j.Logger;
 
 import uk.org.taverna.configuration.AbstractConfigurable;
@@ -117,7 +117,7 @@ public class HttpProxyConfigurationImpl extends AbstractConfigurable implements
 		} else {
 			System.setProperty(key, value);
 		}
-		AxisProperties.setProperty(key, (value == null ? "" : value));
+		//AxisProperties.setProperty(key, (value == null ? "" : value));
 	}
 
 	@Override

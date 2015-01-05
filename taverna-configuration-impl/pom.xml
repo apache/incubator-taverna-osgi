@@ -48,12 +48,12 @@
 			<artifactId>wsdl-generic</artifactId>
 			<version>${wsdl.generic.version}</version>
 		</dependency>
-	-->
 	<dependency>
 		<groupId>org.apache.axis</groupId>
 		<artifactId>com.springsource.org.apache.axis</artifactId>
 		<version>${axis.version}</version>
 	</dependency>
+	-->
 	
 
 		<dependency>
