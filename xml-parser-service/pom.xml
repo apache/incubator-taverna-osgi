@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+    <groupId>org.apache.taverna.osgi</groupId>
+    <artifactId>taverna-osgi</artifactId>
+    <version>0.2.0-incubating-SNAPSHOT</version>
+	</parent>
+	<artifactId>xml-parser-service</artifactId>
+	<packaging>bundle</packaging>
+	<name>XML Parser Service</name>
+	<description>Implementation of XML Parser Service Specification, Version 1.0</description>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<configuration>
+					<instructions>
+						<Import-Package>org.w3c.dom;version="0.0.0",org.xml.sax;version="0.0.0",javax.xml.parsers;version="0.0.0",org.apache.xerces.jaxp,*</Import-Package>
+						<Private-Package>org.osgi.util.xml</Private-Package>
+						<Bundle-Activator>org.osgi.util.xml.XMLParserActivator</Bundle-Activator>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.compendium</artifactId>
+			<version>4.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.xerces</groupId>
+			<artifactId>com.springsource.org.apache.xerces</artifactId>
+			<version>2.9.1</version>
+		</dependency>
+	</dependencies>
+</project>
