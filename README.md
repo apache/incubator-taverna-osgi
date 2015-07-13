@@ -38,15 +38,24 @@ The file [NOTICE](NOTICE) contain any additional attributions and
 details about embedded third-party libraries and source code.
 
 
-## Contribute
+# Contribute
 
-Feel free to
-[contribute to Apache Taverna](http://taverna.incubator.apache.org/download/code/#contribute-to-apache-taverna)
-by [submitting an issue](https://issues.apache.org/jira/browse/TAVERNA), send a
-[pull request](https://github.com/apache/incubator-taverna-osgi/pulls), or discuss the project at
-the [dev@taverna mailing list](http://taverna.incubator.apache.org/community/lists#devtaverna).
+Please subscribe to and contact the
+[dev@taverna](http://taverna.incubator.apache.org/community/lists#dev mailing list)
+for any questions, suggestions and discussions about
+Apache Taverna.
 
-All contributions are assumed to be licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0), unless otherwise noted.
+Bugs and feature plannings are tracked in the Jira
+[Issue tracker](https://issues.apache.org/jira/browse/TAVERNA/component/12326811)
+under the `TAVERNA` component _Taverna Common Activities_. Feel free
+to add an issue!
+
+To suggest changes to this source code, feel free to raise a
+[GitHub pull request](https://github.com/apache/incubator-taverna-osgi/pulls).
+Any contributions received are assumed to be covered by the [Apache License
+2.0](https://www.apache.org/licenses/LICENSE-2.0). We might ask you
+to sign a [Contributor License Agreement](https://www.apache.org/licenses/#clas)
+before accepting a larger contribution.
 
 ## Disclaimer
 
