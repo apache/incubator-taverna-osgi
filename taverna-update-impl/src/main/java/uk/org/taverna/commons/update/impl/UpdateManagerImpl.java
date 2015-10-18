@@ -36,11 +36,11 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.taverna.commons.download.DownloadException;
+import org.apache.taverna.commons.download.DownloadManager;
 import org.apache.taverna.configuration.app.ApplicationConfiguration;
 import org.osgi.service.event.EventAdmin;
 
-import uk.org.taverna.commons.download.DownloadException;
-import uk.org.taverna.commons.download.DownloadManager;
 import uk.org.taverna.commons.profile.xml.jaxb.ApplicationProfile;
 import uk.org.taverna.commons.profile.xml.jaxb.BundleInfo;
 import uk.org.taverna.commons.profile.xml.jaxb.UpdateSite;

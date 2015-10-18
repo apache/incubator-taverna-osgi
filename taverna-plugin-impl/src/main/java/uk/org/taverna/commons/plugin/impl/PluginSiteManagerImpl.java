@@ -33,10 +33,10 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.log4j.Logger;
+import org.apache.taverna.commons.download.DownloadException;
+import org.apache.taverna.commons.download.DownloadManager;
 import org.apache.taverna.configuration.app.ApplicationConfiguration;
 
-import uk.org.taverna.commons.download.DownloadException;
-import uk.org.taverna.commons.download.DownloadManager;
 import uk.org.taverna.commons.plugin.PluginException;
 import uk.org.taverna.commons.plugin.PluginSite;
 import uk.org.taverna.commons.plugin.PluginSite.PluginSiteType;

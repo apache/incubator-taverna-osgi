@@ -18,7 +18,7 @@
  *  License along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  ******************************************************************************/
-package uk.org.taverna.commons.download.impl;
+package org.apache.taverna.commons.download.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,9 +29,8 @@ import java.net.URL;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-
-import uk.org.taverna.commons.download.DownloadException;
-import uk.org.taverna.commons.download.DownloadManager;
+import org.apache.taverna.commons.download.DownloadException;
+import org.apache.taverna.commons.download.DownloadManager;
 
 /**
  *

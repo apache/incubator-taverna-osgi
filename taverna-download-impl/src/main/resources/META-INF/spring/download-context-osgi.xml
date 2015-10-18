@@ -6,6 +6,6 @@
                                  http://www.springframework.org/schema/osgi
                                  http://www.springframework.org/schema/osgi/spring-osgi.xsd">
 
-	<service ref="downloadManager" interface="uk.org.taverna.commons.download.DownloadManager" />
+	<service ref="downloadManager" interface="org.apache.taverna.commons.download.DownloadManager" />
 
 </beans:beans>

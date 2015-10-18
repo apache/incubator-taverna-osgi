@@ -10,7 +10,7 @@
 	<service ref="pluginSiteManager" interface="uk.org.taverna.commons.plugin.PluginSiteManager" />
 
 	<reference id="applicationConfiguration" interface="org.apache.taverna.configuration.app.ApplicationConfiguration" />
-	<reference id="downloadManager" interface="uk.org.taverna.commons.download.DownloadManager" />
+	<reference id="downloadManager" interface="org.apache.taverna.commons.download.DownloadManager" />
 
 	<reference id="eventAdmin" interface="org.osgi.service.event.EventAdmin" />
 

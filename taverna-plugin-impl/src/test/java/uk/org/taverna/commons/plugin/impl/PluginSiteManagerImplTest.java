@@ -27,13 +27,13 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.apache.taverna.commons.download.DownloadException;
+import org.apache.taverna.commons.download.DownloadManager;
 import org.apache.taverna.configuration.app.ApplicationConfiguration;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import uk.org.taverna.commons.download.DownloadException;
-import uk.org.taverna.commons.download.DownloadManager;
 import uk.org.taverna.commons.plugin.PluginException;
 
 /**
@@ -132,7 +132,7 @@ public class PluginSiteManagerImplTest {
 	}
 
 	/**
-	 * Test method for {@link uk.org.taverna.commons.plugin.impl.PluginSiteManagerImpl#setDownloadManager(uk.org.taverna.commons.download.DownloadManager)}.
+	 * Test method for {@link uk.org.taverna.commons.plugin.impl.PluginSiteManagerImpl#setDownloadManager(org.apache.taverna.commons.download.DownloadManager)}.
 	 */
 	@Test
 	public void testSetDownloadManager() {
