@@ -38,9 +38,9 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.log4j.Logger;
+import org.apache.taverna.configuration.app.ApplicationConfiguration;
 
 import uk.org.taverna.commons.profile.xml.jaxb.ApplicationProfile;
-import uk.org.taverna.configuration.app.ApplicationConfiguration;
 
 /**
  * Represent the application config as it has been specified in {@value #PROPERTIES}. This

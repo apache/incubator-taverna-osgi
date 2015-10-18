@@ -27,10 +27,10 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
+import org.apache.taverna.configuration.app.ApplicationConfiguration;
 
 import uk.org.taverna.configuration.Configurable;
 import uk.org.taverna.configuration.ConfigurationManager;
-import uk.org.taverna.configuration.app.ApplicationConfiguration;
 
 /**
  * Handles the configuration for a {@link Configurable} object

@@ -32,8 +32,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.RollingFileAppender;
-
-import uk.org.taverna.configuration.app.ApplicationConfiguration;
+import org.apache.taverna.configuration.app.ApplicationConfiguration;
 
 public class Log4JConfiguration {
 	public final static String LOG4J_PROPERTIES = "log4j.properties";

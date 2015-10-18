@@ -4,8 +4,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="applicationConfiguration" class="uk.org.taverna.configuration.app.impl.ApplicationConfigurationImpl" />
-	<bean id="log4JConfiguration" class="uk.org.taverna.configuration.app.impl.Log4JConfiguration" init-method="prepareLog4J">
+	<bean id="applicationConfiguration" class="org.apache.taverna.configuration.app.impl.ApplicationConfigurationImpl" />
+	<bean id="log4JConfiguration" class="org.apache.taverna.configuration.app.impl.Log4JConfiguration" init-method="prepareLog4J">
 		<property name="applicationConfiguration">
 			<ref local="applicationConfiguration" />
 		</property>

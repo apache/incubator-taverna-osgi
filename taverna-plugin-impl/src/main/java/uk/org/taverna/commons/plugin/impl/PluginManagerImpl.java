@@ -40,6 +40,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.log4j.Logger;
+import org.apache.taverna.configuration.app.ApplicationConfiguration;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
@@ -58,7 +59,6 @@ import uk.org.taverna.commons.plugin.PluginSiteManager;
 import uk.org.taverna.commons.plugin.xml.jaxb.PluginInfo;
 import uk.org.taverna.commons.plugin.xml.jaxb.PluginVersions;
 import uk.org.taverna.commons.profile.xml.jaxb.BundleInfo;
-import uk.org.taverna.configuration.app.ApplicationConfiguration;
 
 /**
  * PluginManager implementation.

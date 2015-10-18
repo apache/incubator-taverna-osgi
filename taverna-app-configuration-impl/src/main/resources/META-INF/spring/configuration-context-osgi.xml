@@ -6,6 +6,6 @@
                                  http://www.springframework.org/schema/osgi
                                  http://www.springframework.org/schema/osgi/spring-osgi.xsd">
 
-	<service ref="applicationConfiguration" interface="uk.org.taverna.configuration.app.ApplicationConfiguration" />
+	<service ref="applicationConfiguration" interface="org.apache.taverna.configuration.app.ApplicationConfiguration" />
 
 </beans:beans>

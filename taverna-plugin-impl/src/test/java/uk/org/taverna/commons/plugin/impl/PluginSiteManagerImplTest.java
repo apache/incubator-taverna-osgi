@@ -27,6 +27,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.apache.taverna.configuration.app.ApplicationConfiguration;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -34,7 +35,6 @@ import org.junit.Test;
 import uk.org.taverna.commons.download.DownloadException;
 import uk.org.taverna.commons.download.DownloadManager;
 import uk.org.taverna.commons.plugin.PluginException;
-import uk.org.taverna.configuration.app.ApplicationConfiguration;
 
 /**
  *
@@ -124,7 +124,7 @@ public class PluginSiteManagerImplTest {
 	}
 
 	/**
-	 * Test method for {@link uk.org.taverna.commons.plugin.impl.PluginSiteManagerImpl#setApplicationConfiguration(uk.org.taverna.configuration.app.ApplicationConfiguration)}.
+	 * Test method for {@link uk.org.taverna.commons.plugin.impl.PluginSiteManagerImpl#setApplicationConfiguration(org.apache.taverna.configuration.app.ApplicationConfiguration)}.
 	 */
 	@Test
 	public void testSetApplicationConfiguration() {

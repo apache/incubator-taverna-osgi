@@ -33,6 +33,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.log4j.Logger;
+import org.apache.taverna.configuration.app.ApplicationConfiguration;
 
 import uk.org.taverna.commons.download.DownloadException;
 import uk.org.taverna.commons.download.DownloadManager;
@@ -43,7 +44,6 @@ import uk.org.taverna.commons.plugin.PluginSiteManager;
 import uk.org.taverna.commons.plugin.xml.jaxb.PluginVersions;
 import uk.org.taverna.commons.plugin.xml.jaxb.Plugins;
 import uk.org.taverna.commons.profile.xml.jaxb.Updates;
-import uk.org.taverna.configuration.app.ApplicationConfiguration;
 
 /**
  * PluginSiteManager implementation.

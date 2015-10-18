@@ -36,6 +36,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.taverna.configuration.app.ApplicationConfiguration;
 import org.osgi.service.event.EventAdmin;
 
 import uk.org.taverna.commons.download.DownloadException;
@@ -48,7 +49,6 @@ import uk.org.taverna.commons.update.UpdateException;
 import uk.org.taverna.commons.update.UpdateManager;
 import uk.org.taverna.commons.versions.xml.jaxb.Version;
 import uk.org.taverna.commons.versions.xml.jaxb.Versions;
-import uk.org.taverna.configuration.app.ApplicationConfiguration;
 
 /**
  * Implementation of the Taverna Update Manager.
