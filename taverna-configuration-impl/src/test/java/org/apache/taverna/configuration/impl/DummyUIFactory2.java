@@ -18,7 +18,7 @@
  *  License along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  ******************************************************************************/
-package uk.org.taverna.configuration.impl;
+package org.apache.taverna.configuration.impl;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
