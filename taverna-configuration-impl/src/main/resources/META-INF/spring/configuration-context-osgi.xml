@@ -6,8 +6,8 @@
                                  http://www.springframework.org/schema/osgi
                                  http://www.springframework.org/schema/osgi/spring-osgi.xsd">
 
-	<service ref="configurationManager" interface="uk.org.taverna.configuration.ConfigurationManager" />
-	<service ref="httpProxyConfiguration" interface="uk.org.taverna.configuration.proxy.HttpProxyConfiguration" />
+	<service ref="configurationManager" interface="org.apache.taverna.configuration.ConfigurationManager" />
+	<service ref="httpProxyConfiguration" interface="org.apache.taverna.configuration.proxy.HttpProxyConfiguration" />
 
 	<reference id="applicationConfiguration" interface="org.apache.taverna.configuration.app.ApplicationConfiguration" />
 

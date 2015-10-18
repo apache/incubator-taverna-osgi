@@ -30,14 +30,14 @@ import java.io.FileInputStream;
 import java.util.Properties;
 import java.util.UUID;
 
+import org.apache.taverna.configuration.AbstractConfigurable;
+import org.apache.taverna.configuration.Configurable;
+import org.apache.taverna.configuration.DummyConfigurable;
 import org.apache.taverna.configuration.app.ApplicationConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 
 import uk.org.taverna.commons.profile.xml.jaxb.ApplicationProfile;
-import uk.org.taverna.configuration.AbstractConfigurable;
-import uk.org.taverna.configuration.Configurable;
-import uk.org.taverna.configuration.DummyConfigurable;
 
 public class ConfigurationManagerImplTest {
 

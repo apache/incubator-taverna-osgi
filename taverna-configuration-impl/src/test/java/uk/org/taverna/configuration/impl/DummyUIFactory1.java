@@ -26,8 +26,8 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
-import uk.org.taverna.configuration.Configurable;
-import uk.org.taverna.configuration.ConfigurationUIFactory;
+import org.apache.taverna.configuration.Configurable;
+import org.apache.taverna.configuration.ConfigurationUIFactory;
 
 public class DummyUIFactory1 implements ConfigurationUIFactory {
 

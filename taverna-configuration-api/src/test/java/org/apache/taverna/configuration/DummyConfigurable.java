@@ -21,13 +21,13 @@
 /**
  *
  */
-package uk.org.taverna.configuration;
+package org.apache.taverna.configuration;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import uk.org.taverna.configuration.AbstractConfigurable;
-import uk.org.taverna.configuration.ConfigurationManager;
+import org.apache.taverna.configuration.AbstractConfigurable;
+import org.apache.taverna.configuration.ConfigurationManager;
 
 public class DummyConfigurable extends AbstractConfigurable {
 

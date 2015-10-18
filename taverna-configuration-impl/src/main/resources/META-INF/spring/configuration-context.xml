@@ -4,11 +4,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="configurationManager" class="uk.org.taverna.configuration.impl.ConfigurationManagerImpl" >
+	<bean id="configurationManager" class="org.apache.taverna.configuration.impl.ConfigurationManagerImpl" >
 		<constructor-arg name="applicationConfiguration" ref="applicationConfiguration" />
 	</bean>
 
-	<bean id="httpProxyConfiguration" class="uk.org.taverna.configuration.proxy.impl.HttpProxyConfigurationImpl">
+	<bean id="httpProxyConfiguration" class="org.apache.taverna.configuration.proxy.impl.HttpProxyConfigurationImpl">
 		<constructor-arg name="configurationManager" ref="configurationManager" />
 	</bean>
 

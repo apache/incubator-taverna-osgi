@@ -26,10 +26,9 @@ import java.util.Properties;
 
 //import org.apache.axis.AxisProperties;
 import org.apache.log4j.Logger;
-
-import uk.org.taverna.configuration.AbstractConfigurable;
-import uk.org.taverna.configuration.ConfigurationManager;
-import uk.org.taverna.configuration.proxy.HttpProxyConfiguration;
+import org.apache.taverna.configuration.AbstractConfigurable;
+import org.apache.taverna.configuration.ConfigurationManager;
+import org.apache.taverna.configuration.proxy.HttpProxyConfiguration;
 
 /**
  * The HttpProxyConfiguration handles the configuration of HTTP

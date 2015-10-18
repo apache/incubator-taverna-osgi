@@ -17,8 +17,8 @@
 				<configuration>
 					<instructions>
 						<Import-Package>
-							uk.org.taverna.configuration;provide:=true,
-							uk.org.taverna.configuration.proxy;provide:=true,*
+							org.apache.taverna.configuration;provide:=true,
+							org.apache.taverna.configuration.proxy;provide:=true,*
 						</Import-Package>
 					</instructions>
 				</configuration>

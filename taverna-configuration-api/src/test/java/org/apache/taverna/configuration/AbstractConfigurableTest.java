@@ -18,7 +18,7 @@
  *  License along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  ******************************************************************************/
-package uk.org.taverna.configuration;
+package org.apache.taverna.configuration;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -32,6 +32,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import org.apache.taverna.configuration.AbstractConfigurable;
+import org.apache.taverna.configuration.Configurable;
+import org.apache.taverna.configuration.ConfigurationManager;
 import org.junit.Before;
 import org.junit.Test;
 
