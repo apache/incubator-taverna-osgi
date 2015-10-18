@@ -124,7 +124,7 @@ public class Utils {
 			try {
 				String line = reader.readLine();
 				while (line != null) {
-					if (!line.isEmpty()) {
+					if (!line.isEmpty() && ! line.startsWith("#")) {
 						javaPackages.add(line.trim());
 					}
 					line = reader.readLine();
