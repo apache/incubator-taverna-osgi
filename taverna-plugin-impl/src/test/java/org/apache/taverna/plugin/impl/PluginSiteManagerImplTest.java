@@ -32,7 +32,6 @@ import org.apache.taverna.download.DownloadException;
 import org.apache.taverna.download.DownloadManager;
 import org.apache.taverna.plugin.PluginException;
 import org.apache.taverna.plugin.impl.PluginSiteManagerImpl;
-import org.apache.taverna.plugin.impl.org;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
