@@ -6,7 +6,7 @@
                                  http://www.springframework.org/schema/osgi
                                  http://www.springframework.org/schema/osgi/spring-osgi.xsd">
 
-	<service ref="updateManager" interface="uk.org.taverna.commons.update.UpdateManager" />
+	<service ref="updateManager" interface="org.apache.taverna.update.UpdateManager" />
 
 	<reference id="applicationConfiguration" interface="org.apache.taverna.configuration.app.ApplicationConfiguration" />
 	<reference id="downloadManager" interface="org.apache.taverna.download.DownloadManager" />

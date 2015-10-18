@@ -18,30 +18,17 @@
  *  License along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  ******************************************************************************/
-package uk.org.taverna.commons.update;
+package org.apache.taverna.update;
 
 /**
- * Thrown when an update fails.
+ * Manager for updating Tavana Applications.
  *
  * @author David Withers
  */
-public class UpdateException extends Exception {
+public interface UpdateManager {
 
-	private static final long serialVersionUID = -5852543170339969041L;
+	public boolean checkForUpdates() throws UpdateException;
 
-	public UpdateException() {
-	}
-
-	public UpdateException(String message) {
-		super(message);
-	}
-
-	public UpdateException(Throwable cause) {
-		super(cause);
-	}
-
-	public UpdateException(String message, Throwable cause) {
-		super(message, cause);
-	}
+	public boolean update() throws UpdateException;
 
 }
