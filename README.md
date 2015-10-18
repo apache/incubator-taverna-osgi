@@ -25,7 +25,6 @@ probably usable for any OSGi-based command line/desktop product.
 ## License
 
 (c) 2007-2014 University of Manchester
-
 (c) 2014-2015 Apache Software Foundation
 
 This product includes software developed at The [Apache Software
@@ -104,3 +103,27 @@ Apache Taverna project, you may not want to run the
 that enforces Apache headers in every source file - to disable it, try:
 
     mvn clean install -Drat.skip=true
+
+# Modules
+
+The Taverna OSGi modules are split into `-api` and `-impl`. `-api` contain
+Java interfaces and abstract classes and minimal dependencies, while `-impl`
+contain the corresponding implementation(s).
+
+* [taverna-app-configuration-api](taverna-app-configuration-api/) - Apache Taverna Application Configuration API
+* [taverna-app-configuration-impl](taverna-app-configuration-impl/) - Apache Taverna Application Configuration implementation
+* [taverna-configuration-api](taverna-configuration-api/) - Apache Taverna Configuration API
+* [taverna-configuration-impl](taverna-configuration-impl/) - Apache Taverna Configuration implementation
+* [taverna-download-api](taverna-download-api/) - Apache Taverna Download API
+* [taverna-download-impl](taverna-download-impl/) - Apache Taverna Download implementation
+* [taverna-maven-plugin](taverna-maven-plugin/) - Apache Taverna Maven plugin for packaging and deploying Taverna plugins
+* [taverna-osgi-schemas](taverna-osgi-schemas/) - Apache Taverna Taverna's OSGi XML schemas and JAXB bindings
+* [taverna-plugin-api](taverna-plugin-api/) - Apache Taverna Plugin API
+* [taverna-plugin-impl](taverna-plugin-impl/) - Apache Taverna Plugin implementation
+* [taverna-update-api](taverna-update-api/) - Apache Taverna Update API
+* [taverna-update-impl](taverna-update-impl/) - Apache Taverna Update implementation
+* [osgi-launcher](osgi-launcher/) - Apache Taverna OSGi Framework Launcher
+* [xml-parser-service](xml-parser-service/) - Apache Taverna XML Parser Service for OSGi
+* [xml-transformer-service](xml-transformer-service/) - Apache Taverna XML Transformer Service for OSGi
+
+
