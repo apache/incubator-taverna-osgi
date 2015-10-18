@@ -44,21 +44,20 @@ import org.apache.taverna.configuration.app.ApplicationConfiguration;
 import org.apache.taverna.download.DownloadException;
 import org.apache.taverna.download.DownloadManager;
 import org.apache.taverna.plugin.Plugin;
+import org.apache.taverna.plugin.Plugin.State;
 import org.apache.taverna.plugin.PluginException;
 import org.apache.taverna.plugin.PluginManager;
 import org.apache.taverna.plugin.PluginSite;
 import org.apache.taverna.plugin.PluginSiteManager;
-import org.apache.taverna.plugin.Plugin.State;
+import org.apache.taverna.plugin.xml.jaxb.PluginInfo;
+import org.apache.taverna.plugin.xml.jaxb.PluginVersions;
+import org.apache.taverna.profile.xml.jaxb.BundleInfo;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.Version;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
-
-import uk.org.taverna.commons.plugin.xml.jaxb.PluginInfo;
-import uk.org.taverna.commons.plugin.xml.jaxb.PluginVersions;
-import uk.org.taverna.commons.profile.xml.jaxb.BundleInfo;
 
 /**
  * PluginManager implementation.

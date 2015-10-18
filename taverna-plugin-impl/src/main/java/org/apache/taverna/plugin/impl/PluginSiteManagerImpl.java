@@ -38,12 +38,12 @@ import org.apache.taverna.download.DownloadException;
 import org.apache.taverna.download.DownloadManager;
 import org.apache.taverna.plugin.PluginException;
 import org.apache.taverna.plugin.PluginSite;
-import org.apache.taverna.plugin.PluginSiteManager;
 import org.apache.taverna.plugin.PluginSite.PluginSiteType;
+import org.apache.taverna.plugin.PluginSiteManager;
+import org.apache.taverna.plugin.xml.jaxb.PluginVersions;
+import org.apache.taverna.plugin.xml.jaxb.Plugins;
+import org.apache.taverna.profile.xml.jaxb.Updates;
 
-import uk.org.taverna.commons.plugin.xml.jaxb.PluginVersions;
-import uk.org.taverna.commons.plugin.xml.jaxb.Plugins;
-import uk.org.taverna.commons.profile.xml.jaxb.Updates;
 
 /**
  * PluginSiteManager implementation.

@@ -44,12 +44,11 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.ProjectDependenciesResolver;
 import org.apache.maven.shared.osgi.DefaultMaven2OsgiConverter;
 import org.apache.maven.shared.osgi.Maven2OsgiConverter;
+import org.apache.taverna.profile.xml.jaxb.ApplicationProfile;
+import org.apache.taverna.profile.xml.jaxb.BundleInfo;
+import org.apache.taverna.profile.xml.jaxb.FrameworkConfiguration;
+import org.apache.taverna.profile.xml.jaxb.Updates;
 import org.eclipse.aether.RepositorySystemSession;
-
-import uk.org.taverna.commons.profile.xml.jaxb.ApplicationProfile;
-import uk.org.taverna.commons.profile.xml.jaxb.BundleInfo;
-import uk.org.taverna.commons.profile.xml.jaxb.FrameworkConfiguration;
-import uk.org.taverna.commons.profile.xml.jaxb.Updates;
 
 /**
  * Generates an application profile file.

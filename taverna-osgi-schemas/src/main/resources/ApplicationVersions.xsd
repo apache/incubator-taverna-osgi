@@ -8,7 +8,7 @@
 	<xs:annotation>
 		<xs:appinfo>
 			<jxb:schemaBindings>
-				<jxb:package name="uk.org.taverna.commons.versions.xml.jaxb" />
+				<jxb:package name="org.apache.taverna.versions.xml.jaxb" />
 			</jxb:schemaBindings>
 		</xs:appinfo>
 	</xs:annotation>

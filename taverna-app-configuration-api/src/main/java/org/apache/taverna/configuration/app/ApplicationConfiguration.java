@@ -22,7 +22,7 @@ package org.apache.taverna.configuration.app;
 
 import java.io.File;
 
-import uk.org.taverna.commons.profile.xml.jaxb.ApplicationProfile;
+import org.apache.taverna.profile.xml.jaxb.ApplicationProfile;
 
 /**
  * Represent the application config as it has been specified in

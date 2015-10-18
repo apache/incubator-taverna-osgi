@@ -34,11 +34,9 @@ import org.apache.taverna.configuration.AbstractConfigurable;
 import org.apache.taverna.configuration.Configurable;
 import org.apache.taverna.configuration.DummyConfigurable;
 import org.apache.taverna.configuration.app.ApplicationConfiguration;
-import org.apache.taverna.configuration.impl.ConfigurationManagerImpl;
+import org.apache.taverna.profile.xml.jaxb.ApplicationProfile;
 import org.junit.Before;
 import org.junit.Test;
-
-import uk.org.taverna.commons.profile.xml.jaxb.ApplicationProfile;
 
 public class ConfigurationManagerImplTest {
 

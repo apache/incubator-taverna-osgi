@@ -33,12 +33,11 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.apache.taverna.plugin.Plugin;
 import org.apache.taverna.plugin.PluginException;
+import org.apache.taverna.plugin.xml.jaxb.PluginInfo;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.Constants;
 import org.osgi.framework.Version;
-
-import uk.org.taverna.commons.plugin.xml.jaxb.PluginInfo;
 
 /**
  * @author David Withers

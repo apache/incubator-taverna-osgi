@@ -41,12 +41,11 @@ import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.authentication.AuthenticationException;
 import org.apache.maven.wagon.observers.Debug;
 import org.apache.maven.wagon.repository.Repository;
-
-import uk.org.taverna.commons.profile.xml.jaxb.ApplicationProfile;
-import uk.org.taverna.commons.profile.xml.jaxb.BundleInfo;
-import uk.org.taverna.commons.profile.xml.jaxb.UpdateSite;
-import uk.org.taverna.commons.versions.xml.jaxb.Version;
-import uk.org.taverna.commons.versions.xml.jaxb.Versions;
+import org.apache.taverna.profile.xml.jaxb.ApplicationProfile;
+import org.apache.taverna.profile.xml.jaxb.BundleInfo;
+import org.apache.taverna.profile.xml.jaxb.UpdateSite;
+import org.apache.taverna.versions.xml.jaxb.Version;
+import org.apache.taverna.versions.xml.jaxb.Versions;
 
 /**
  * Deploys the application profile using <code>scp</code> or <code>file</code> protocol to the site

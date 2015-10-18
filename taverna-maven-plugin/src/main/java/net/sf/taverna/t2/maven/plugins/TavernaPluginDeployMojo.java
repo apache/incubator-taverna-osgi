@@ -37,11 +37,10 @@ import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.authentication.AuthenticationException;
 import org.apache.maven.wagon.observers.Debug;
 import org.apache.maven.wagon.repository.Repository;
-
-import uk.org.taverna.commons.plugin.xml.jaxb.PluginInfo;
-import uk.org.taverna.commons.plugin.xml.jaxb.PluginVersions;
-import uk.org.taverna.commons.plugin.xml.jaxb.Plugins;
-import uk.org.taverna.commons.versions.xml.jaxb.Version;
+import org.apache.taverna.plugin.xml.jaxb.PluginInfo;
+import org.apache.taverna.plugin.xml.jaxb.PluginVersions;
+import org.apache.taverna.plugin.xml.jaxb.Plugins;
+import org.apache.taverna.versions.xml.jaxb.Version;
 
 /**
  * Deploys the Taverna plugin using <code>scp</code> or <code>file</code> protocol to the site URL

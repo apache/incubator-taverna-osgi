@@ -39,16 +39,15 @@ import org.apache.commons.io.FileUtils;
 import org.apache.taverna.configuration.app.ApplicationConfiguration;
 import org.apache.taverna.download.DownloadException;
 import org.apache.taverna.download.DownloadManager;
+import org.apache.taverna.profile.xml.jaxb.ApplicationProfile;
+import org.apache.taverna.profile.xml.jaxb.BundleInfo;
+import org.apache.taverna.profile.xml.jaxb.UpdateSite;
+import org.apache.taverna.profile.xml.jaxb.Updates;
 import org.apache.taverna.update.UpdateException;
 import org.apache.taverna.update.UpdateManager;
+import org.apache.taverna.versions.xml.jaxb.Version;
+import org.apache.taverna.versions.xml.jaxb.Versions;
 import org.osgi.service.event.EventAdmin;
-
-import uk.org.taverna.commons.profile.xml.jaxb.ApplicationProfile;
-import uk.org.taverna.commons.profile.xml.jaxb.BundleInfo;
-import uk.org.taverna.commons.profile.xml.jaxb.UpdateSite;
-import uk.org.taverna.commons.profile.xml.jaxb.Updates;
-import uk.org.taverna.commons.versions.xml.jaxb.Version;
-import uk.org.taverna.commons.versions.xml.jaxb.Versions;
 
 /**
  * Implementation of the Taverna Update Manager.

@@ -23,7 +23,7 @@ package org.apache.taverna.plugin;
 import java.net.URL;
 import java.util.List;
 
-import uk.org.taverna.commons.plugin.xml.jaxb.PluginVersions;
+import org.apache.taverna.plugin.xml.jaxb.PluginVersions;
 
 /**
  * Manages plugin sites.

@@ -42,10 +42,9 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.ProjectDependenciesResolver;
 import org.apache.maven.shared.osgi.DefaultMaven2OsgiConverter;
 import org.apache.maven.shared.osgi.Maven2OsgiConverter;
+import org.apache.taverna.plugin.xml.jaxb.PluginInfo;
+import org.apache.taverna.profile.xml.jaxb.BundleInfo;
 import org.eclipse.aether.RepositorySystemSession;
-
-import uk.org.taverna.commons.plugin.xml.jaxb.PluginInfo;
-import uk.org.taverna.commons.profile.xml.jaxb.BundleInfo;
 
 /**
  * Generates a Taverna plugin definition file.
