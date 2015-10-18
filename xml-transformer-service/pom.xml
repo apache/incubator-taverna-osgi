@@ -18,8 +18,8 @@
 				<configuration>
 					<instructions>
 						<Import-Package>javax.xml.transform;version="0.0.0",org.apache.xalan.processor,*</Import-Package>
-						<Private-Package>uk.org.taverna.osgi.services.xml</Private-Package>
-						<Bundle-Activator>uk.org.taverna.osgi.services.xml.XMLTransformerActivator</Bundle-Activator>
+						<Private-Package>org.apache.taverna.xmltransformer</Private-Package>
+						<Bundle-Activator>org.apache.taverna.xmltransformer.XMLTransformerActivator</Bundle-Activator>
 					</instructions>
 				</configuration>
 			</plugin>
