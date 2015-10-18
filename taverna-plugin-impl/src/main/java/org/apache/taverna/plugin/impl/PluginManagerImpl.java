@@ -40,9 +40,9 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.log4j.Logger;
-import org.apache.taverna.commons.download.DownloadException;
-import org.apache.taverna.commons.download.DownloadManager;
 import org.apache.taverna.configuration.app.ApplicationConfiguration;
+import org.apache.taverna.download.DownloadException;
+import org.apache.taverna.download.DownloadManager;
 import org.apache.taverna.plugin.Plugin;
 import org.apache.taverna.plugin.PluginException;
 import org.apache.taverna.plugin.PluginManager;
