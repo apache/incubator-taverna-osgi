@@ -25,46 +25,45 @@
 		<version>1-incubating</version>
 	</parent>
 	<groupId>org.apache.taverna.osgi</groupId>
-	<artifactId>taverna-osgi</artifactId>
+	<artifactId>apache-taverna-osgi</artifactId>
 	<version>0.2.0-incubating-SNAPSHOT</version>
-	<name>Apache Taverna OSGi plugin system</name>
-  <description>OSGi-based plugin system, including
-    online updates. Written for Apache Taverna,
-    usable for any OSGi-based
-    command line/desktop product</description>
 	<packaging>pom</packaging>
+	<name>Apache Taverna OSGi plugin system</name>
+	<description>OSGi-based plugin system, including
+online updates. Written for Apache Taverna,
+probably usable for any OSGi-based
+command line/desktop product.</description>
+	<scm>
+		<connection>scm:git:https://git-wip-us.apache.org/repos/asf/incubator-taverna-osgi.git</connection>
+		<developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/incubator-taverna-osgi.git</developerConnection>
+		<url>https://github.com/apache/incubator-taverna-osgi</url>
+		<tag>HEAD</tag>
+	</scm>
+	<repositories>
+		<repository>
+			<id>apache.snapshots</id>
+			<name>Apache Snapshot Repository</name>
+			<url>http://repository.apache.org/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
 	<modules>
 		<module>xml-parser-service</module>
 		<module>xml-transformer-service</module>
-    <module>osgi-launcher</module>
-    <module>taverna-app-configuration-api</module>
-    <module>taverna-app-configuration-impl</module>
-    <module>taverna-configuration-api</module>
-    <module>taverna-configuration-impl</module>
-    <module>taverna-download-api</module>
-    <module>taverna-download-impl</module>
-    <module>taverna-maven-plugin</module>
-    <module>taverna-plugin-api</module>
-    <module>taverna-plugin-impl</module>
-    <module>taverna-update-api</module>
-    <module>taverna-update-impl</module>
-    <module>taverna-osgi-schemas</module>
+		<module>osgi-launcher</module>
+		<module>taverna-app-configuration-api</module>
+		<module>taverna-app-configuration-impl</module>
+		<module>taverna-configuration-api</module>
+		<module>taverna-configuration-impl</module>
+		<module>taverna-download-api</module>
+		<module>taverna-download-impl</module>
+		<module>taverna-maven-plugin</module>
+		<module>taverna-plugin-api</module>
+		<module>taverna-plugin-impl</module>
+		<module>taverna-update-api</module>
+		<module>taverna-update-impl</module>
+		<module>taverna-osgi-schemas</module>
 	</modules>
-  <scm>
-    <connection>scm:git:https://git-wip-us.apache.org/repos/asf/incubator-taverna-osgi.git</connection>
-    <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/incubator-taverna-osgi.git</developerConnection>
-    <url>https://github.com/apache/incubator-taverna-osgi</url>
-    <tag>HEAD</tag>
-  </scm>
-  <repositories>
-    <repository>
-      <id>apache.snapshots</id>
-      <name>Apache Snapshot Repository</name>
-      <url>http://repository.apache.org/snapshots</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-  </repositories>
-
 </project>
