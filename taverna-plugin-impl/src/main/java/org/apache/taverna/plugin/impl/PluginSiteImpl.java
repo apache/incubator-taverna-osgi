@@ -18,33 +18,59 @@
  *  License along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  ******************************************************************************/
-package uk.org.taverna.commons.plugin.impl;
+package org.apache.taverna.plugin.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlRootElement;
+import org.apache.taverna.plugin.PluginSite;
 
 /**
- *
+ * PluginSite implementation.
  *
  * @author David Withers
  */
-@XmlRootElement
-public class PluginSites {
+public class PluginSiteImpl implements PluginSite {
 
-    private List<PluginSiteImpl> pluginSites;
+	private String name, url;
 
-	public List<PluginSiteImpl> getPluginSites() {
-		if (pluginSites == null) {
-			pluginSites = new ArrayList<PluginSiteImpl>();
-		}
-		return pluginSites;
+	private PluginSiteType type;
+
+	public PluginSiteImpl() {
 	}
 
-	public void setPluginSites(List<PluginSiteImpl> pluginSites) {
-		this.pluginSites = pluginSites;
+	public PluginSiteImpl(String name, String url) {
+		this(name, url, PluginSiteType.USER);
+	}
+
+	public PluginSiteImpl(String name, String url, PluginSiteType type) {
+		this.name = name;
+		this.url = url;
+		this.type = type;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	@Override
+	public PluginSiteType getType() {
+		return type;
+	}
+
+	public void setType(PluginSiteType type) {
+		this.type = type;
 	}
 
 }
-

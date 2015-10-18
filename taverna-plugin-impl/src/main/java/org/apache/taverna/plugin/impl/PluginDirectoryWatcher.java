@@ -18,7 +18,7 @@
  *  License along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  ******************************************************************************/
-package uk.org.taverna.commons.plugin.impl;
+package org.apache.taverna.plugin.impl;
 
 import java.io.File;
 
@@ -26,9 +26,8 @@ import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
 import org.apache.log4j.Logger;
-
-import uk.org.taverna.commons.plugin.Plugin;
-import uk.org.taverna.commons.plugin.PluginException;
+import org.apache.taverna.plugin.Plugin;
+import org.apache.taverna.plugin.PluginException;
 
 /**
  * Watches a plugin directory and adds or removes plugins when plugin files are added or removed

@@ -18,59 +18,28 @@
  *  License along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  ******************************************************************************/
-package uk.org.taverna.commons.plugin.impl;
-
-import uk.org.taverna.commons.plugin.PluginSite;
+package org.apache.taverna.plugin;
 
 /**
- * PluginSite implementation.
+ *
  *
  * @author David Withers
  */
-public class PluginSiteImpl implements PluginSite {
+public class PluginException extends Exception {
 
-	private String name, url;
-
-	private PluginSiteType type;
-
-	public PluginSiteImpl() {
+	public PluginException() {
 	}
 
-	public PluginSiteImpl(String name, String url) {
-		this(name, url, PluginSiteType.USER);
+	public PluginException(String message, Throwable cause) {
+		super(message, cause);
 	}
 
-	public PluginSiteImpl(String name, String url, PluginSiteType type) {
-		this.name = name;
-		this.url = url;
-		this.type = type;
+	public PluginException(String message) {
+		super(message);
 	}
 
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	@Override
-	public PluginSiteType getType() {
-		return type;
-	}
-
-	public void setType(PluginSiteType type) {
-		this.type = type;
+	public PluginException(Throwable cause) {
+		super(cause);
 	}
 
 }

@@ -18,28 +18,48 @@
  *  License along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  ******************************************************************************/
-package uk.org.taverna.commons.plugin;
+package org.apache.taverna.plugin;
 
 /**
- *
+ * A plugin site specifies the location of a site that contains plugins.
+ * <p>
+ * There are two types of plugin site:
+ * <dl>
+ * <dt>SYSTEM</dt>
+ * <dd>plugin sites specified by the application profile</dd>
+ * <dt>USER</dt>
+ * <dd>plugin sites that can be added and removed by the user</dd>
+ * </dl>
  *
  * @author David Withers
  */
-public class PluginException extends Exception {
+public interface PluginSite {
 
-	public PluginException() {
-	}
+	public static enum PluginSiteType {
+		SYSTEM, USER
+	};
 
-	public PluginException(String message, Throwable cause) {
-		super(message, cause);
-	}
+	/**
+	 * Returns the name of the plugin site.
+	 *
+	 * @return the name of the plugin site
+	 */
+	public String getName();
 
-	public PluginException(String message) {
-		super(message);
-	}
+	/**
+	 * Returns the URL of the plugin site.
+	 *
+	 * @return the URL of the plugin site
+	 */
+	public String getUrl();
 
-	public PluginException(Throwable cause) {
-		super(cause);
-	}
+	/**
+	 * Returns the type of the plugin site.
+	 * <p>
+	 * The type is either {@code SYSTEM} or {@code USER}
+	 *
+	 * @return the type of the plugin site
+	 */
+	public PluginSiteType getType();
 
 }

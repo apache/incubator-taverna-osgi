@@ -18,7 +18,7 @@
  *  License along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  ******************************************************************************/
-package uk.org.taverna.commons.plugin.impl;
+package org.apache.taverna.plugin.impl;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -30,11 +30,12 @@ import java.net.URL;
 import org.apache.taverna.commons.download.DownloadException;
 import org.apache.taverna.commons.download.DownloadManager;
 import org.apache.taverna.configuration.app.ApplicationConfiguration;
+import org.apache.taverna.plugin.PluginException;
+import org.apache.taverna.plugin.impl.PluginSiteManagerImpl;
+import org.apache.taverna.plugin.impl.org;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import uk.org.taverna.commons.plugin.PluginException;
 
 /**
  *
@@ -58,7 +59,7 @@ public class PluginSiteManagerImplTest {
 	}
 
 	/**
-	 * Test method for {@link uk.org.taverna.commons.plugin.impl.PluginSiteManagerImpl#PluginSiteManagerImpl()}.
+	 * Test method for {@link org.apache.taverna.plugin.impl.PluginSiteManagerImpl#PluginSiteManagerImpl()}.
 	 * @throws Exception 
 	 */
 	@Test
@@ -67,7 +68,7 @@ public class PluginSiteManagerImplTest {
 	}
 
 	/**
-	 * Test method for {@link uk.org.taverna.commons.plugin.impl.PluginSiteManagerImpl#getPluginSites()}.
+	 * Test method for {@link org.apache.taverna.plugin.impl.PluginSiteManagerImpl#getPluginSites()}.
 	 */
 	@Test
 	public void testGetPluginSites() {
@@ -75,7 +76,7 @@ public class PluginSiteManagerImplTest {
 	}
 
 	/**
-	 * Test method for {@link uk.org.taverna.commons.plugin.impl.PluginSiteManagerImpl#createPluginSite(java.net.URL)}.
+	 * Test method for {@link org.apache.taverna.plugin.impl.PluginSiteManagerImpl#createPluginSite(java.net.URL)}.
 	 * @throws DownloadException
 	 */
 	@Test
@@ -100,7 +101,7 @@ public class PluginSiteManagerImplTest {
 	}
 
 	/**
-	 * Test method for {@link uk.org.taverna.commons.plugin.impl.PluginSiteManagerImpl#addPluginSite(uk.org.taverna.commons.plugin.PluginSite)}.
+	 * Test method for {@link org.apache.taverna.plugin.impl.PluginSiteManagerImpl#addPluginSite(org.apache.taverna.plugin.PluginSite)}.
 	 */
 	@Test
 	public void testAddPluginSite() {
@@ -108,7 +109,7 @@ public class PluginSiteManagerImplTest {
 	}
 
 	/**
-	 * Test method for {@link uk.org.taverna.commons.plugin.impl.PluginSiteManagerImpl#removePluginSite(uk.org.taverna.commons.plugin.PluginSite)}.
+	 * Test method for {@link org.apache.taverna.plugin.impl.PluginSiteManagerImpl#removePluginSite(org.apache.taverna.plugin.PluginSite)}.
 	 */
 	@Test
 	public void testRemovePluginSite() {
@@ -116,7 +117,7 @@ public class PluginSiteManagerImplTest {
 	}
 
 	/**
-	 * Test method for {@link uk.org.taverna.commons.plugin.impl.PluginSiteManagerImpl#getPlugins(uk.org.taverna.commons.plugin.PluginSite)}.
+	 * Test method for {@link org.apache.taverna.plugin.impl.PluginSiteManagerImpl#getPlugins(org.apache.taverna.plugin.PluginSite)}.
 	 */
 	@Test
 	public void testGetPlugins() {
@@ -124,7 +125,7 @@ public class PluginSiteManagerImplTest {
 	}
 
 	/**
-	 * Test method for {@link uk.org.taverna.commons.plugin.impl.PluginSiteManagerImpl#setApplicationConfiguration(org.apache.taverna.configuration.app.ApplicationConfiguration)}.
+	 * Test method for {@link org.apache.taverna.plugin.impl.PluginSiteManagerImpl#setApplicationConfiguration(org.apache.taverna.configuration.app.ApplicationConfiguration)}.
 	 */
 	@Test
 	public void testSetApplicationConfiguration() {
@@ -132,7 +133,7 @@ public class PluginSiteManagerImplTest {
 	}
 
 	/**
-	 * Test method for {@link uk.org.taverna.commons.plugin.impl.PluginSiteManagerImpl#setDownloadManager(org.apache.taverna.commons.download.DownloadManager)}.
+	 * Test method for {@link org.apache.taverna.plugin.impl.PluginSiteManagerImpl#setDownloadManager(org.apache.taverna.commons.download.DownloadManager)}.
 	 */
 	@Test
 	public void testSetDownloadManager() {

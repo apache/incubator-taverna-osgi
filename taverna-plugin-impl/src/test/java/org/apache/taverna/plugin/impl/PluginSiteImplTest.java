@@ -1,11 +1,11 @@
-package uk.org.taverna.commons.plugin.impl;
+package org.apache.taverna.plugin.impl;
 
 import static org.junit.Assert.*;
 
+import org.apache.taverna.plugin.PluginSite.PluginSiteType;
+import org.apache.taverna.plugin.impl.PluginSiteImpl;
 import org.junit.Before;
 import org.junit.Test;
-
-import uk.org.taverna.commons.plugin.PluginSite.PluginSiteType;
 
 public class PluginSiteImplTest {
 

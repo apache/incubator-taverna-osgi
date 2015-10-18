@@ -18,7 +18,7 @@
  *  License along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  ******************************************************************************/
-package uk.org.taverna.commons.plugin.impl;
+package org.apache.taverna.plugin.impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,11 +36,11 @@ import org.apache.log4j.Logger;
 import org.apache.taverna.commons.download.DownloadException;
 import org.apache.taverna.commons.download.DownloadManager;
 import org.apache.taverna.configuration.app.ApplicationConfiguration;
+import org.apache.taverna.plugin.PluginException;
+import org.apache.taverna.plugin.PluginSite;
+import org.apache.taverna.plugin.PluginSiteManager;
+import org.apache.taverna.plugin.PluginSite.PluginSiteType;
 
-import uk.org.taverna.commons.plugin.PluginException;
-import uk.org.taverna.commons.plugin.PluginSite;
-import uk.org.taverna.commons.plugin.PluginSite.PluginSiteType;
-import uk.org.taverna.commons.plugin.PluginSiteManager;
 import uk.org.taverna.commons.plugin.xml.jaxb.PluginVersions;
 import uk.org.taverna.commons.plugin.xml.jaxb.Plugins;
 import uk.org.taverna.commons.profile.xml.jaxb.Updates;

@@ -6,11 +6,11 @@
                            http://www.springframework.org/schema/osgi-compendium
                            http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd">
 
-	<!-- <osgix:cm-properties id="cfg.with.defaults" persistent-id="uk.org.taverna.commons.plugin.impl.PluginSiteManagerImpl">
+	<!-- <osgix:cm-properties id="cfg.with.defaults" persistent-id="org.apache.taverna.plugin.impl.PluginSiteManagerImpl">
 		<prop key="checkIntervalSeconds">300</prop>
 	</osgix:cm-properties> -->
 
-	<bean id="pluginManager" class="uk.org.taverna.commons.plugin.impl.PluginManagerImpl">
+	<bean id="pluginManager" class="org.apache.taverna.plugin.impl.PluginManagerImpl">
 		<property name="eventAdmin" ref="eventAdmin" />
 		<property name="applicationConfiguration" ref="applicationConfiguration" />
 		<property name="bundleContext" ref="bundleContext" />
@@ -22,10 +22,10 @@
 	</bean>
 
 	<bean id="pluginSiteManager"
-		class="uk.org.taverna.commons.plugin.impl.PluginSiteManagerImpl">
+		class="org.apache.taverna.plugin.impl.PluginSiteManagerImpl">
 		<property name="applicationConfiguration" ref="applicationConfiguration" />
 		<property name="downloadManager" ref="downloadManager" />
-		<!-- <osgix:managed-properties persistent-id="uk.org.taverna.commons.plugin.impl.PluginSiteManagerImpl" /> -->
+		<!-- <osgix:managed-properties persistent-id="org.apache.taverna.plugin.impl.PluginSiteManagerImpl" /> -->
 	</bean>
 
 </beans>

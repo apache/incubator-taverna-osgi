@@ -18,11 +18,11 @@
  *  License along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  ******************************************************************************/
-package uk.org.taverna.commons.plugin.impl;
+package org.apache.taverna.plugin.impl;
 
-import static uk.org.taverna.commons.plugin.Plugin.State.STARTED;
-import static uk.org.taverna.commons.plugin.Plugin.State.STOPPED;
-import static uk.org.taverna.commons.plugin.Plugin.State.UNINSTALLED;
+import static org.apache.taverna.plugin.Plugin.State.STARTED;
+import static org.apache.taverna.plugin.Plugin.State.STOPPED;
+import static org.apache.taverna.plugin.Plugin.State.UNINSTALLED;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,13 +31,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.apache.taverna.plugin.Plugin;
+import org.apache.taverna.plugin.PluginException;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.Constants;
 import org.osgi.framework.Version;
 
-import uk.org.taverna.commons.plugin.Plugin;
-import uk.org.taverna.commons.plugin.PluginException;
 import uk.org.taverna.commons.plugin.xml.jaxb.PluginInfo;
 
 /**
