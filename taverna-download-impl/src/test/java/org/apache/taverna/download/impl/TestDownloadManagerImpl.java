@@ -1,24 +1,22 @@
 package org.apache.taverna.download.impl;
 
-import java.io.File;
+import static java.nio.charset.StandardCharsets.US_ASCII;
+import static org.junit.Assert.assertEquals;
+
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
-import static java.nio.charset.StandardCharsets.US_ASCII;
 
 import org.apache.taverna.download.DownloadException;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class TestDownloadManagerImpl {
 	
 	/**
 	 * This test should remain commented out 
-	 * as it relies on a third-party 
-	 * web service.
+	 * as it relies on a third-party web site
 	 * 
-	 * Verifies 
+	 * Verifies TAVERNA-893
 	 * 
 	 */
 	@Test(expected=DownloadException.class)
@@ -28,7 +26,12 @@ public class TestDownloadManagerImpl {
 		// NOTE: The below URL is a Taverna 2 POM - not related to 
 		// taverna-plugin-impl
 		URL wrongURL = new URL("http://192.185.115.65/~diana/DIANA_plugin_updated/test-plugins/gr/dianatools/diana.services-activity/1.0-SNAPSHOT/diana.services-activity-1.0-SNAPSHOT.pom");
-		dl.download(wrongURL, pomFile.toFile(), "MD5");	
+		
+		// With this we get an exception - but only because the 
+		// 300 erorr page fails the MD5 check
+		//dl.download(wrongURL, pomFile.toFile(), "MD5");
+		// so we'll try without hashsum
+		dl.download(wrongURL, pomFile.toFile());
 	}
 	
 	/**
@@ -42,10 +45,10 @@ public class TestDownloadManagerImpl {
 	public void downloadLocalFile() throws Exception {
 		Path example = Files.createTempFile("example", ".txt");
 		Files.write(example, "Hello world".getBytes(US_ASCII)); // No newline
-		Path exampleMd5 = example.resolve(example.getFileName() + ".md5");
+		Path exampleMd5 = example.resolveSibling(example.getFileName() + ".md5");
 //		stain@biggie:~$ echo -n "Hello world"|md5sum
 //		3e25960a79dbc69b674cd4ec67a72c62  -
-		Files.write(exampleMd5, "3e25960a79dbc69b674cd4ec67a72c62".getBytes(US_ASCII));
+		Files.write(exampleMd5, "3e25960a79dbc69b674cd4ec67a72c62".getBytes(US_ASCII)); // no newline
 		
 		DownloadManagerImpl dl = new DownloadManagerImpl();
 		
