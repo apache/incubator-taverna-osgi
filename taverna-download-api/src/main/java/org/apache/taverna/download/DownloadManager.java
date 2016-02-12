@@ -16,13 +16,12 @@
  */
 package org.apache.taverna.download;
 
-import java.io.File;
-import java.net.URL;
+import java.net.URI;
+import java.nio.file.Path;
 
 /**
  * Download Manager for handling file download and checking the integrity of the download.
  *
- * @author David Withers
  */
 public interface DownloadManager {
 
@@ -43,7 +42,7 @@ public interface DownloadManager {
 	 *             the destination is not a file</li> <li>the destination cannot be written to</li>
 	 *             </ul>
 	 */
-	public void download(URL source, File destination) throws DownloadException;
+	public void download(URI source, Path destination) throws DownloadException;
 
 	/**
 	 * Downloads a file from a URL and checks the integrity of the download by downloading and
@@ -74,7 +73,7 @@ public interface DownloadManager {
 	 *             </li> <li>the destination is not a file</li> <li>the checksums do no match</li>
 	 *             </ul>
 	 */
-	public void download(URL source, File destination, String digestAlgorithm)
+	public void download(URI source, Path destination, String digestAlgorithm)
 			throws DownloadException;
 
 	/**
@@ -106,7 +105,7 @@ public interface DownloadManager {
 	 *                does not exist</li> <li>the checksums do no match</li>
 	 *                </ul>
 	 */
-	public void download(URL source, File destination, String digestAlgorithm, URL digestSource)
+	public void download(URI source, Path destination, String digestAlgorithm, URI digestSource)
 			throws DownloadException;
 
 }
