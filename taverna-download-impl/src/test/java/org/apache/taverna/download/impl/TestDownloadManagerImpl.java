@@ -8,17 +8,20 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.apache.taverna.download.DownloadException;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestDownloadManagerImpl {
 	
 	/**
-	 * This test should remain commented out 
+	 * This test should remain @Ignored  
 	 * as it relies on a third-party web site
+	 * and should not break the build.
 	 * 
 	 * Verifies TAVERNA-893
 	 * 
 	 */
+	@Ignore
 	@Test(expected=DownloadException.class)
 	public void handle300MultipleChoice() throws Exception {
 		DownloadManagerImpl dl = new DownloadManagerImpl();
@@ -33,6 +36,7 @@ public class TestDownloadManagerImpl {
 		// so we'll try without hashsum
 		dl.download(wrongURL, pomFile.toFile());
 	}
+	
 	
 	/**
 	 * Test downloading a file:/// to a File, checking md5 hashsum.
