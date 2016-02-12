@@ -30,11 +30,11 @@ import org.apache.taverna.download.DownloadManager;
 
 /**
  *
- *
- * @author David Withers
  */
 public class DownloadManagerImpl implements DownloadManager {
 
+	private static final int TIMEOUT = Integer.getInteger("taverna.download.timeout.seconds", 30) * 1000;
+	
 	private static final Logger logger = Logger.getLogger(DownloadManagerImpl.class);
 
 	public void download(URL source, File destination) throws DownloadException {
@@ -69,7 +69,7 @@ public class DownloadManagerImpl implements DownloadManager {
 			tempFile = File.createTempFile("DownloadManager", "tmp");
 			tempFile.deleteOnExit();
 			logger.info(String.format("Downloading %1$s to %2$s", source, tempFile));
-			FileUtils.copyURLToFile(source, tempFile, 30, 30);
+			FileUtils.copyURLToFile(source, tempFile, TIMEOUT, TIMEOUT);
 		} catch (IOException e) {
 			throw new DownloadException(String.format("Error downloading %1$s to %2$s.", source, destination), e);
 		}
@@ -80,7 +80,7 @@ public class DownloadManagerImpl implements DownloadManager {
 				digestFile = File.createTempFile("DownloadManager", "tmp");
 				digestFile.deleteOnExit();
 				logger.info(String.format("Downloading %1$s to %2$s", digestSource, digestFile));
-				FileUtils.copyURLToFile(digestSource, digestFile, 30, 30);
+				FileUtils.copyURLToFile(digestSource, digestFile, TIMEOUT, TIMEOUT);
 			} catch (IOException e) {
 				throw new DownloadException(String.format("Error checking digest for %1$s.", source), e);
 			}
