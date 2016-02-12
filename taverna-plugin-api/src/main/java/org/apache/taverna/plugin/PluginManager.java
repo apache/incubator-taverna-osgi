@@ -28,7 +28,7 @@ import org.apache.taverna.plugin.xml.jaxb.PluginVersions;
  */
 public interface PluginManager {
 
-	public static final String EVENT_TOPIC_ROOT = "uk/org/taverna/commons/plugin/PluginManager/";
+	public static final String EVENT_TOPIC_ROOT = "org/apache/taverna/plugin/PluginManager/";
 	public static final String PLUGIN_INSTALLED = EVENT_TOPIC_ROOT + "PLUGIN_INSTALLED";
 	public static final String PLUGIN_UNINSTALLED = EVENT_TOPIC_ROOT + "PLUGIN_UNINSTALLED";
 	public static final String UPDATES_AVAILABLE = EVENT_TOPIC_ROOT + "UPDATES_AVAILABLE";
