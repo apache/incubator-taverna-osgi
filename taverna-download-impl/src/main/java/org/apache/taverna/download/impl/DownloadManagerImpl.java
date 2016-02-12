@@ -16,14 +16,25 @@
  */
 package org.apache.taverna.download.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.InputStream;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystemNotFoundException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
 
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.io.FileUtils;
+import org.apache.http.client.fluent.Request;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.VersionInfo;
 import org.apache.log4j.Logger;
 import org.apache.taverna.download.DownloadException;
 import org.apache.taverna.download.DownloadManager;
@@ -33,79 +44,126 @@ import org.apache.taverna.download.DownloadManager;
  */
 public class DownloadManagerImpl implements DownloadManager {
 
+	CloseableHttpClient httpclient = HttpClients.createDefault();
+
 	private static final int TIMEOUT = Integer.getInteger("taverna.download.timeout.seconds", 30) * 1000;
-	
+
 	private static final Logger logger = Logger.getLogger(DownloadManagerImpl.class);
 
-	public void download(URL source, File destination) throws DownloadException {
+	@Override
+	public void download(URI source, Path destination) throws DownloadException {
 		download(source, destination, null);
 	}
 
-	public void download(URL source, File destination, String digestAlgorithm) throws DownloadException {
-		// TODO Use MessageDigest when Java 7 available
-		if (digestAlgorithm != null && !digestAlgorithm.equals("MD5")) {
-			throw new IllegalArgumentException("Only MD5 supported");
-		}
-		URL digestSource = null;
+	@Override
+	public void download(URI source, Path destination, String digestAlgorithm) throws DownloadException {
+		URI digestSource = null;
 		if (digestAlgorithm != null) {
-			try {
-				digestSource = new URL(source.toString() + mapAlgorithmToFileExtension(digestAlgorithm));
-			} catch (MalformedURLException e) {
-				throw new DownloadException("Error creating digest URL", e);
-			}
+			// Note: Will break with ?download=file.xml kind of URLs
+			digestSource = source.resolve(source.getPath() + mapAlgorithmToFileExtension(digestAlgorithm));
 		}
 		download(source, destination, digestAlgorithm, digestSource);
 	}
 
-	public void download(URL source, File destination, String digestAlgorithm, URL digestSource)
+	public String getUserAgent() {
+		Package pack = getClass().getPackage();
+		String httpClientVersion = VersionInfo.getUserAgent("Apache-HttpClient", "org.apache.http.client",
+				Request.class);
+		return "Apache-Taverna-OSGi" + "/" + pack.getImplementationVersion() + " (" + httpClientVersion + ")";
+	}
+
+	@Override
+	public void download(URI source, Path destination, String digestAlgorithm, URI digestSource)
 			throws DownloadException {
-		// TODO Use MessageDigest when Java 7 available
-		if (digestAlgorithm != null && !digestAlgorithm.equals("MD5")) {
-			throw new IllegalArgumentException("Only MD5 supported");
+
+		MessageDigest md = null;
+		if (digestAlgorithm != null) {
+			try {
+				md = MessageDigest.getInstance(digestAlgorithm);
+			} catch (NoSuchAlgorithmException e) {
+				throw new IllegalArgumentException("Unsupported digestAlgorithm: " + digestAlgorithm, e);
+			}
 		}
+
 		// download the file
-		File tempFile;
+		Path tempFile;
 		try {
-			tempFile = File.createTempFile("DownloadManager", "tmp");
-			tempFile.deleteOnExit();
-			logger.info(String.format("Downloading %1$s to %2$s", source, tempFile));
-			FileUtils.copyURLToFile(source, tempFile, TIMEOUT, TIMEOUT);
-		} catch (IOException e) {
-			throw new DownloadException(String.format("Error downloading %1$s to %2$s.", source, destination), e);
+			tempFile = Files.createTempFile(destination.getParent(), "." + destination.getFileName(), ".tmp");
+		} catch (IOException e1) {
+			// perhaps a permission problem?
+			throw new DownloadException("Can't create temporary file in folder " + destination.getParent(), e1);
 		}
+		logger.info(String.format("Downloading %1$s to %2$s", source, tempFile));
+		downloadToFile(source, tempFile);
+
 		if (digestSource != null) {
 			// download the digest file
-			File digestFile;
+			String expectedDigest;
+			expectedDigest = downloadHash(digestSource).trim().toLowerCase(Locale.ROOT);
+			// check if the digest matches
 			try {
-				digestFile = File.createTempFile("DownloadManager", "tmp");
-				digestFile.deleteOnExit();
-				logger.info(String.format("Downloading %1$s to %2$s", digestSource, digestFile));
-				FileUtils.copyURLToFile(digestSource, digestFile, TIMEOUT, TIMEOUT);
-			} catch (IOException e) {
-				throw new DownloadException(String.format("Error checking digest for %1$s.", source), e);
-			}
-			// check the digest matches
-			try {
-				String digestString1 = DigestUtils.md5Hex(new FileInputStream(tempFile));
-				String digestString2 = FileUtils.readFileToString(digestFile);
-				if (!digestString1.equals(digestString2)) {
-					throw new DownloadException(String.format(
-							"Error downloading file: digsests not equal. (%1$s != %2$s)",
-							digestString1, digestString2));
+				try (InputStream s = Files.newInputStream(tempFile)) {
+					DigestUtils.updateDigest(md, s);
+					String actualDigest = Hex.encodeHexString(md.digest());
+					if (!actualDigest.equals(expectedDigest)) {
+						throw new DownloadException(
+								String.format("Error downloading file: checksum mismatch (%1$s != %2$s)",
+										actualDigest, expectedDigest));
+					}
 				}
 			} catch (IOException e) {
-				throw new DownloadException(String.format("Error checking digest for %1$s", destination),
-						e);
+				throw new DownloadException(String.format("Error checking digest for %1$s", destination), e);
 			}
 		}
-		// copy file to destination
+		// All fine, move to destination
 		try {
 			logger.info(String.format("Copying %1$s to %2$s", tempFile, destination));
-			FileUtils.copyFile(tempFile, destination);
+			Files.move(tempFile, destination, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			throw new DownloadException(String.format("Error downloading %1$s to %2$s.", source, destination), e);
 		}
 
+	}
+
+	private String downloadHash(URI source) throws DownloadException {
+		try {
+			// We want to handle http/https with HTTPClient
+			if (source.getScheme().equalsIgnoreCase("http") || source.getScheme().equalsIgnoreCase("https")) {
+				logger.info("Downloading checksum " + source);
+				return Request.Get(source).userAgent(getUserAgent()).connectTimeout(TIMEOUT).socketTimeout(TIMEOUT).execute()
+						.returnContent().asString(StandardCharsets.ISO_8859_1);
+			} else {
+				// Try as a supported Path, e.g. file: or relative path
+				try {
+					Path path = Paths.get(source);
+					return Files.readAllLines(path, StandardCharsets.ISO_8859_1).get(0);				
+				} catch (FileSystemNotFoundException e) {
+					throw new DownloadException("Unsupported URL scheme: " + source.getScheme());
+				}
+ 			}
+		} catch (IOException e) {
+			throw new DownloadException(String.format("Error downloading %1$s", source), e);
+		}		
+	}
+	
+	private void downloadToFile(URI source, Path destination) throws DownloadException {
+		try {
+			// We want to handle http/https with HTTPClient
+			if (source.getScheme().equalsIgnoreCase("http") || source.getScheme().equalsIgnoreCase("https")) {
+				Request.Get(source).userAgent(getUserAgent()).connectTimeout(TIMEOUT).socketTimeout(TIMEOUT).execute()
+						.saveContent(destination.toFile());
+			} else {
+				// Try as a supported Path, e.g. file: or relative path
+				try {
+					Path path = Paths.get(source);
+					Files.copy(path, destination, StandardCopyOption.REPLACE_EXISTING);
+				} catch (FileSystemNotFoundException e) {
+					throw new DownloadException("Unsupported URL scheme: " + source.getScheme());
+				}
+			}
+		} catch (IOException e) {
+			throw new DownloadException(String.format("Error downloading %1$s to %2$s.", source, destination), e);
+		}
 	}
 
 	private String mapAlgorithmToFileExtension(String algorithm) {
