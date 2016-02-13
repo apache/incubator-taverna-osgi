@@ -157,7 +157,7 @@ public class ApplicationUserHome {
 			} else if (os.startsWith("Windows")) {
 				String APPDATA = System.getenv("APPDATA");
 				File appData = null;
-				if (APPDATA != null) {
+				if (APPDATA != null) {					
 					appData = new File(APPDATA);
 				}
 				if (appData != null && appData.isDirectory()) {

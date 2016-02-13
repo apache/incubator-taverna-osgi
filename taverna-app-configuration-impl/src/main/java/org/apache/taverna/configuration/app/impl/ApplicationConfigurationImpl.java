@@ -23,6 +23,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -45,8 +46,6 @@ import org.apache.taverna.profile.xml.jaxb.ApplicationProfile;
  * <code>conf</code> directory, or in a <code>conf</code> directory in the application's
  * distribution directory.
  *
- * @author Stian Soiland-Reyes
- * @author David Withers
  */
 public class ApplicationConfigurationImpl implements ApplicationConfiguration {
 
@@ -89,18 +88,18 @@ public class ApplicationConfigurationImpl implements ApplicationConfiguration {
 	}
 
 	@Override
-	public File getStartupDir() {
+	public Path getStartupDir() {
 		if (startupDir == null) {
 			String startupDirName = System.getProperty(APP_STARTUP);
 			if (startupDirName != null) {
 				startupDir = new File(startupDirName).getAbsoluteFile();
 			}
 		}
-		return startupDir;
+		return startupDir.toPath();
 	}
 
 	@Override
-	public synchronized File getApplicationHomeDir() {
+	public synchronized Path getApplicationHomeDir() {
 		if (homeDir == null) {
 			if (getName().equals(ApplicationConfigurationImpl.UNKNOWN_APPLICATION)) {
 				try {
@@ -121,44 +120,44 @@ public class ApplicationConfigurationImpl implements ApplicationConfiguration {
 						+ homeDir);
 			}
 		}
-		return homeDir;
+		return homeDir.toPath();
 	}
 
 	@Override
-	public File getUserPluginDir() {
-		File userPluginsDir = new File(getApplicationHomeDir(), PLUGINS_DIR);
+	public Path getUserPluginDir() {
+		File userPluginsDir = new File(getApplicationHomeDir().toFile(), PLUGINS_DIR);
 		try {
 			userPluginsDir.mkdirs();
 		} catch (SecurityException e) {
 			logger.warn("Error creating user plugin directory at " + userPluginsDir, e);
 		}
-		return userPluginsDir;
+		return userPluginsDir.toPath();
 	}
 
 	@Override
-	public File getSystemPluginDir() {
-		File systemPluginsDir = new File(getStartupDir(), PLUGINS_DIR);
+	public Path getSystemPluginDir() {
+		File systemPluginsDir = new File(getStartupDir().toFile(), PLUGINS_DIR);
 		try {
 			systemPluginsDir.mkdirs();
 		} catch (SecurityException e) {
 			logger.debug("Error creating system plugin directory at " + systemPluginsDir, e);
 		}
-		return systemPluginsDir;
+		return systemPluginsDir.toPath();
 	}
 
 	@Override
-	public File getLogFile() {
-		return new File(getLogDir(), getName() + ".log");
+	public Path getLogFile() {
+		return getLogDir().resolve(getName() + ".log");
 	}
 
 	@Override
-	public File getLogDir() {
-		File logDir = new File(getApplicationHomeDir(), "logs");
+	public Path getLogDir() {
+		File logDir = getApplicationHomeDir().resolve("logs").toFile();
 		logDir.mkdirs();
 		if (!logDir.isDirectory()) {
 			throw new IllegalStateException("Could not create log directory " + logDir);
 		}
-		return logDir;
+		return logDir.toPath();
 	}
 
 	private void findInClassLoader(List<URI> configs, ClassLoader classLoader, String resourcePath) {
@@ -214,7 +213,7 @@ public class ApplicationConfigurationImpl implements ApplicationConfiguration {
 		// properties from
 		List<URI> configs = new ArrayList<URI>();
 
-		File startupDir = getStartupDir();
+		File startupDir = getStartupDir().toFile();
 		if (startupDir != null) {
 			configs.add(startupDir.toURI().resolve(CONF_DIR).resolve(resourceName));
 			configs.add(startupDir.toURI().resolve(resourceName));
@@ -249,7 +248,7 @@ public class ApplicationConfigurationImpl implements ApplicationConfiguration {
 	@Override
 	public ApplicationProfile getApplicationProfile() {
 		if (applicationProfile == null) {
-			File applicationProfileFile = new File(getApplicationHomeDir(), APPLICATION_PROFILE);
+			File applicationProfileFile = new File(getApplicationHomeDir().toFile(), APPLICATION_PROFILE);
 			if (!applicationProfileFile.exists()) {
 				logger.debug("Application profile not found at " + applicationProfileFile);
 				return getDefaultApplicationProfile();
@@ -271,7 +270,7 @@ public class ApplicationConfigurationImpl implements ApplicationConfiguration {
 
 	public ApplicationProfile getDefaultApplicationProfile() {
 		if (defaultApplicationProfile == null) {
-			File applicationProfileFile = new File(getStartupDir(), APPLICATION_PROFILE);
+			File applicationProfileFile = new File(getStartupDir().toFile(), APPLICATION_PROFILE);
 			if (applicationProfileFile.exists()) {
 				try {
 					JAXBContext jaxbContext = JAXBContext.newInstance(ApplicationProfile.class);

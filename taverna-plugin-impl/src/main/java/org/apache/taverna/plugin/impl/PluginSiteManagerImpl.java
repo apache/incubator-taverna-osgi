@@ -165,7 +165,7 @@ public class PluginSiteManagerImpl implements PluginSiteManager {
 	}
 
 	private File getDataDirectory() {
-		return new File(applicationConfiguration.getApplicationHomeDir(), "plugin-data");
+		return applicationConfiguration.getApplicationHomeDir().resolve("plugin-data").toFile();
 	}
 
 	public void setApplicationConfiguration(ApplicationConfiguration applicationConfiguration) {

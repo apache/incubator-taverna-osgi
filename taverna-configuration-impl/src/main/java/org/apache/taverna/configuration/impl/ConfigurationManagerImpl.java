@@ -40,7 +40,7 @@ public class ConfigurationManagerImpl implements ConfigurationManager {
 	private File baseConfigLocation;
 
 	public ConfigurationManagerImpl(ApplicationConfiguration applicationConfiguration) {
-		File home = applicationConfiguration.getApplicationHomeDir();
+		File home = applicationConfiguration.getApplicationHomeDir().toFile();
 		File config = new File(home,"conf");
 		if (!config.exists()) {
 			config.mkdir();

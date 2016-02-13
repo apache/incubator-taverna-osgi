@@ -23,6 +23,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.file.Path;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -52,8 +53,8 @@ public class ConfigurationManagerImplTest {
 		final File d = new File(configTestsDir, UUID.randomUUID().toString());
 		d.mkdir();
 		manager = new ConfigurationManagerImpl(new ApplicationConfiguration() {
-			public File getApplicationHomeDir() {
-				return d;
+			public Path getApplicationHomeDir() {
+				return d.toPath();
 			}
 
 			public String getName() {
@@ -64,23 +65,23 @@ public class ConfigurationManagerImplTest {
 				return null;
 			}
 
-			public File getStartupDir() {
+			public Path getStartupDir() {
 				return null;
 			}
 
-			public File getUserPluginDir() {
+			public Path getUserPluginDir() {
 				return null;
 			}
 
-			public File getSystemPluginDir() {
+			public Path getSystemPluginDir() {
 				return null;
 			}
 
-			public File getLogFile() {
+			public Path getLogFile() {
 				return null;
 			}
 
-			public File getLogDir() {
+			public Path getLogDir() {
 				return null;
 			}
 

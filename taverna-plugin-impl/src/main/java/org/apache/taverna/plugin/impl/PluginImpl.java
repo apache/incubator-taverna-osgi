@@ -21,6 +21,7 @@ import static org.apache.taverna.plugin.Plugin.State.STOPPED;
 import static org.apache.taverna.plugin.Plugin.State.UNINSTALLED;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -36,7 +37,6 @@ import org.osgi.framework.Constants;
 import org.osgi.framework.Version;
 
 /**
- * @author David Withers
  */
 public class PluginImpl implements Plugin {
 
@@ -166,8 +166,8 @@ public class PluginImpl implements Plugin {
 	}
 
 	@Override
-	public File getFile() {
-		return file;
+	public Path getFile() {
+		return file.toPath();
 	}
 
 	@Override

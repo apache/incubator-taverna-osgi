@@ -51,7 +51,7 @@ public class Log4JConfiguration {
 				PropertyConfigurator.configure(log4jProperties);
 			}
 
-			String logFilePath = applicationConfiguration.getLogFile().getAbsolutePath();
+			String logFilePath = applicationConfiguration.getLogFile().toAbsolutePath().toString();
 			PatternLayout layout = new PatternLayout("%-5p %d{ISO8601} (%c:%L) - %m%n");
 
 			// Add file appender
@@ -118,8 +118,8 @@ public class Log4JConfiguration {
 	 * @return
 	 */
 	private File getLogPropertiesFile() {
-		File home = applicationConfiguration.getApplicationHomeDir();
-		File startup = applicationConfiguration.getStartupDir();
+		File home = applicationConfiguration.getApplicationHomeDir().toFile();
+		File startup = applicationConfiguration.getStartupDir().toFile();
 		File result=null;
 		if (home!=null) {
 			File file = new File(new File(home, ApplicationConfiguration.CONF_DIR), LOG4J_PROPERTIES);

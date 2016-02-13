@@ -90,7 +90,7 @@ public class UpdateManagerImpl implements UpdateManager {
 			throw new UpdateException(String.format("Update site URL (%s) is not a valid URL",
 					updates.getUpdateSite()), e);
 		}
-		File updateDirectory = new File(applicationConfiguration.getApplicationHomeDir(), "updates");
+		File updateDirectory = applicationConfiguration.getApplicationHomeDir().resolve("updates").toFile();
 		updateDirectory.mkdirs();
 		File updatesFile = new File(updateDirectory, updates.getUpdatesFile());
 		try {
@@ -128,8 +128,8 @@ public class UpdateManagerImpl implements UpdateManager {
 						updates.getUpdateSite()), e);
 			}
 
-			File updateDirectory = new File(applicationConfiguration.getApplicationHomeDir(),
-					"updates");
+			File updateDirectory = applicationConfiguration.getApplicationHomeDir().resolve(
+					"updates").toFile();
 			updateDirectory.mkdirs();
 			File latestProfileFile = new File(updateDirectory, "ApplicationProfile-"
 					+ latestVersion.getVersion() + ".xml");
@@ -150,8 +150,8 @@ public class UpdateManagerImpl implements UpdateManager {
 
 			Set<BundleInfo> requiredBundles = getRequiredBundles(
 					applicationConfiguration.getApplicationProfile(), latestProfile);
-			downloadBundles(latestProfile, requiredBundles, new File(applicationConfiguration.getStartupDir(), "lib"));
-			File applicationProfileFile = new File(applicationConfiguration.getStartupDir(), "ApplicationProfile.xml");
+			downloadBundles(latestProfile, requiredBundles, applicationConfiguration.getStartupDir().resolve("lib").toFile());
+			File applicationProfileFile = applicationConfiguration.getStartupDir().resolve("ApplicationProfile.xml").toFile();
 			try {
 				FileUtils.copyFile(latestProfileFile, applicationProfileFile);
 			} catch (IOException e) {

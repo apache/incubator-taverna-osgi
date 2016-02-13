@@ -60,7 +60,6 @@ import org.osgi.service.event.EventAdmin;
 /**
  * PluginManager implementation.
  *
- * @author David Withers
  */
 public class PluginManagerImpl implements PluginManager {
 
@@ -106,7 +105,7 @@ public class PluginManagerImpl implements PluginManager {
 				for (PluginVersions plugin : plugins) {
 					if (installedPlugins.containsKey(plugin.getId())) {
 						Plugin installedPlugin = installedPlugins.get(plugin.getId());
-						if (installedPlugin.getFile().canWrite()) {
+						if (installedPlugin.getFile().toFile().canWrite()) {
 							Version latestVersion = Version.parseVersion(plugin.getLatestVersion()
 									.getVersion());
 							if (latestVersion.compareTo(installedPlugin.getVersion()) > 0) {
@@ -132,8 +131,8 @@ public class PluginManagerImpl implements PluginManager {
 
 	@Override
 	public void loadPlugins() throws PluginException {
-		loadPlugins(applicationConfiguration.getSystemPluginDir());
-		loadPlugins(applicationConfiguration.getUserPluginDir());
+		loadPlugins(applicationConfiguration.getSystemPluginDir().toFile());
+		loadPlugins(applicationConfiguration.getUserPluginDir().toFile());
 	}
 
 	@Override
@@ -161,32 +160,33 @@ public class PluginManagerImpl implements PluginManager {
 	}
 
 	@Override
-	public Plugin installPlugin(File pluginFile) throws PluginException {
+	public Plugin installPlugin(Path pluginFile) throws PluginException {
+		File file = pluginFile.toFile();
 		// check if already installed
 		synchronized (installedPlugins) {
 			for (Plugin plugin : installedPlugins.values()) {
-				if (plugin.getFile().equals(pluginFile)) {
+				if (plugin.getFile().equals(file)) {
 					return plugin;
 				}
 			}
 			// check plugin file
-			if (pluginFile.exists()) {
-				new PluginException(String.format("Plugin file %1$s does not exist", pluginFile));
+			if (file.exists()) {
+				new PluginException(String.format("Plugin file %1$s does not exist", file));
 			}
-			if (pluginFile.isFile()) {
-				new PluginException(String.format("Plugin file %1$s is not a file", pluginFile));
+			if (file.isFile()) {
+				new PluginException(String.format("Plugin file %1$s is not a file", file));
 			}
-			if (!pluginFile.canRead()) {
-				new PluginException(String.format("Plugin file %1$s is not readable", pluginFile));
+			if (!file.canRead()) {
+				new PluginException(String.format("Plugin file %1$s is not readable", file));
 			}
 			// install plugin from plugin file
-			logger.info(String.format("Installing plugin from '%s'", pluginFile));
+			logger.info(String.format("Installing plugin from '%s'", file));
 			JarFile jarFile;
 			try {
-				jarFile = new JarFile(pluginFile);
+				jarFile = new JarFile(file);
 			} catch (IOException e) {
 				throw new PluginException(String.format("Error reading plugin file %1$s",
-						pluginFile), e);
+						file), e);
 			}
 			Plugin plugin = installPlugin(jarFile);
 			installedPlugins.put(plugin.getId(), plugin);
@@ -199,7 +199,7 @@ public class PluginManagerImpl implements PluginManager {
 	@Override
 	public Plugin installPlugin(String pluginSiteURL, String pluginFileName) throws PluginException {
 		Path pluginFile = getPluginFile(pluginSiteURL, pluginFileName);
-		return installPlugin(pluginFile.toFile());
+		return installPlugin(pluginFile);
 	}
 
 	@Override
@@ -276,7 +276,7 @@ public class PluginManagerImpl implements PluginManager {
 			for (File pluginFile : pluginDir.listFiles()) {
 				if (pluginFile.isFile() && pluginFile.canRead() && !pluginFile.isHidden()) {
 					try {
-						installPlugin(pluginFile).start();
+						installPlugin(pluginFile.toPath()).start();
 					} catch (PluginException e) {
 						logger.warn(String.format("Error loading plugin from '%s'", pluginFile), e);
 					}
@@ -394,11 +394,11 @@ public class PluginManagerImpl implements PluginManager {
 	}
 
 	private Path getPluginDirectory() throws PluginException {
-		File systemPluginsDir = applicationConfiguration.getSystemPluginDir();
+		File systemPluginsDir = applicationConfiguration.getSystemPluginDir().toFile();
 		if (checkPluginDirectory(systemPluginsDir, true)) {
 			return systemPluginsDir.toPath();
 		}
-		File userPluginsDir = applicationConfiguration.getUserPluginDir();
+		File userPluginsDir = applicationConfiguration.getUserPluginDir().toFile();
 		if (checkPluginDirectory(userPluginsDir, true)) {
 			return userPluginsDir.toPath();
 		}

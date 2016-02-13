@@ -80,7 +80,7 @@ public class PluginDirectoryWatcher extends FileAlterationListenerAdaptor {
 	@Override
 	public void onFileCreate(File file) {
 		try {
-			Plugin plugin = pluginManager.installPlugin(file);
+			Plugin plugin = pluginManager.installPlugin(file.toPath());
 			plugin.start();
 		} catch (PluginException e) {
 			logger.warn("Error loading plugin file " + file, e);
