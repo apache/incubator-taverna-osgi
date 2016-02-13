@@ -17,6 +17,7 @@
 package org.apache.taverna.plugin;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 
 import org.apache.taverna.plugin.xml.jaxb.PluginVersions;

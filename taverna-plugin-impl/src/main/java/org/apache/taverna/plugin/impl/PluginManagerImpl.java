@@ -20,7 +20,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -196,8 +198,8 @@ public class PluginManagerImpl implements PluginManager {
 
 	@Override
 	public Plugin installPlugin(String pluginSiteURL, String pluginFileName) throws PluginException {
-		File pluginFile = getPluginFile(pluginSiteURL, pluginFileName);
-		return installPlugin(pluginFile);
+		Path pluginFile = getPluginFile(pluginSiteURL, pluginFileName);
+		return installPlugin(pluginFile.toFile());
 	}
 
 	@Override
@@ -367,15 +369,13 @@ public class PluginManagerImpl implements PluginManager {
 		}
 	}
 
-	private File getPluginFile(String pluginSiteURL, String pluginFileName) throws PluginException {
-		File pluginFile = new File(getPluginDirectory(), pluginFileName);
-		String pluginFileURL = pluginSiteURL + "/" + pluginFileName;
+	private Path getPluginFile(String pluginSiteURL, String pluginFileName) throws PluginException {
+		Path pluginFile = getPluginDirectory().resolve(pluginFileName);
+		URI pluginFileURL = URI.create(pluginSiteURL + "/").resolve(pluginFileName);
 		try {
-			downloadManager.download(new URL(pluginFileURL), pluginFile, DIGEST_ALGORITHM);
+			downloadManager.download(pluginFileURL, pluginFile, DIGEST_ALGORITHM);
 		} catch (DownloadException e) {
 			throw new PluginException("Error downloading plugin file " + pluginFile, e);
-		} catch (MalformedURLException e) {
-			throw new PluginException("Invalid plugin file URL " + pluginFileURL, e);
 		}
 		return pluginFile;
 	}
@@ -393,14 +393,14 @@ public class PluginManagerImpl implements PluginManager {
 		}
 	}
 
-	private File getPluginDirectory() throws PluginException {
+	private Path getPluginDirectory() throws PluginException {
 		File systemPluginsDir = applicationConfiguration.getSystemPluginDir();
 		if (checkPluginDirectory(systemPluginsDir, true)) {
-			return systemPluginsDir;
+			return systemPluginsDir.toPath();
 		}
 		File userPluginsDir = applicationConfiguration.getUserPluginDir();
 		if (checkPluginDirectory(userPluginsDir, true)) {
-			return userPluginsDir;
+			return userPluginsDir.toPath();
 		}
 		throw new PluginException("No plugin directory avaliable");
 	}

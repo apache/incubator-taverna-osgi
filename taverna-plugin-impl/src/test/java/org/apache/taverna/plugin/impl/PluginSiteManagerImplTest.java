@@ -16,18 +16,18 @@
  */
 package org.apache.taverna.plugin.impl;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 
-import java.io.File;
-import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 
 import org.apache.taverna.configuration.app.ApplicationConfiguration;
 import org.apache.taverna.download.DownloadException;
 import org.apache.taverna.download.DownloadManager;
 import org.apache.taverna.plugin.PluginException;
-import org.apache.taverna.plugin.impl.PluginSiteManagerImpl;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -77,7 +77,7 @@ public class PluginSiteManagerImplTest {
 	@Test
 	public void testCreatePluginSite() throws Exception {
 		downloadManager = mock(DownloadManager.class);
-		doNothing().when(downloadManager).download(new URL("file:///"), null, "");
+		doNothing().when(downloadManager).download(URI.create("file:///"), null, "");
 
 		pluginSiteManager.setDownloadManager(downloadManager);
 
@@ -88,7 +88,7 @@ public class PluginSiteManagerImplTest {
 	@Test(expected=PluginException.class)
 	public void testCreatePluginSiteDownloadException() throws Exception {
 		downloadManager = mock(DownloadManager.class);
-		doThrow(DownloadException.class).when(downloadManager).download(new URL("file:///"), null, "");
+		doThrow(DownloadException.class).when(downloadManager).download(URI.create("file:///"), null, "");
 
 		pluginSiteManager.setDownloadManager(downloadManager);
 

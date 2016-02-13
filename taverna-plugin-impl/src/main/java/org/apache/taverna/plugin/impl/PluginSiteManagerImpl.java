@@ -19,6 +19,7 @@ package org.apache.taverna.plugin.impl;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,6 @@ import org.apache.taverna.profile.xml.jaxb.Updates;
 /**
  * PluginSiteManager implementation.
  *
- * @author David Withers
  */
 public class PluginSiteManagerImpl implements PluginSiteManager {
 
@@ -86,11 +86,11 @@ public class PluginSiteManagerImpl implements PluginSiteManager {
 
 	@Override
 	public PluginSite createPluginSite(URL pluginSiteURL) throws PluginException {
-		try {
+		try {			
 			File tempFile = File.createTempFile("plugins", null);
 			tempFile.deleteOnExit();
-			URL pluginFileURL = new URL(pluginSiteURL + "/" + PLUGINS_FILE);
-			downloadManager.download(pluginFileURL, tempFile, DIGEST_ALGORITHM);
+			URI pluginFileURL = URI.create(pluginSiteURL + "/").resolve(PLUGINS_FILE);
+			downloadManager.download(pluginFileURL, tempFile.toPath(), DIGEST_ALGORITHM);
 			return new PluginSiteImpl("", pluginSiteURL.toExternalForm());
 		} catch (MalformedURLException e) {
 			throw new PluginException(String.format("Invalid plugin site URL %1$s", pluginSiteURL), e);
@@ -117,17 +117,14 @@ public class PluginSiteManagerImpl implements PluginSiteManager {
 	public List<PluginVersions> getPlugins(PluginSite pluginSite) throws PluginException {
 		List<PluginVersions> plugins = new ArrayList<PluginVersions>();
 		try {
-			URL pluginSiteURL = new URL(pluginSite.getUrl() + "/" + PLUGINS_FILE);
+			URI pluginSiteURL = URI.create(pluginSite.getUrl() + "/").resolve(PLUGINS_FILE);
 			File pluginsFile = new File(getDataDirectory(), PLUGINS_FILE);
-			downloadManager.download(pluginSiteURL, pluginsFile, DIGEST_ALGORITHM);
+			downloadManager.download(pluginSiteURL, pluginsFile.toPath(), DIGEST_ALGORITHM);
 			Plugins pluginsXML = (Plugins) unmarshaller.unmarshal(pluginsFile);
 			for (PluginVersions plugin : pluginsXML.getPlugin()) {
 				plugin.setPluginSiteUrl(pluginSite.getUrl());
 				plugins.add(plugin);
 			}
-		} catch (MalformedURLException e) {
-			throw new PluginException(String.format("Plugin site %1$s has an invalid location",
-					pluginSite.getName()), e);
 		} catch (DownloadException e) {
 			throw new PluginException(String.format("Error downloading from plugin site %1$s",
 					pluginSite.getName()), e);
