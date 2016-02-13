@@ -16,7 +16,6 @@
  */
 package org.apache.taverna.plugin;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -85,7 +84,7 @@ public interface PluginManager {
 	 * @return the installed plugin
 	 * @throws PluginException
 	 */
-	public Plugin installPlugin(File pluginFile) throws PluginException;
+	public Plugin installPlugin(Path pluginFile) throws PluginException;
 
 	/**
 	 * Installs a plugin from an update site.

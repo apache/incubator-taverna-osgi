@@ -16,7 +16,7 @@
  */
 package org.apache.taverna.plugin;
 
-import java.io.File;
+import java.nio.file.Path;
 import java.util.Set;
 
 import org.osgi.framework.Bundle;
@@ -77,7 +77,7 @@ public interface Plugin {
 
 	public void uninstall() throws PluginException;
 
-	public File getFile();
+	public Path getFile();
 
 	public Set<Bundle> getBundles();
 

@@ -16,7 +16,7 @@
  */
 package org.apache.taverna.configuration.app;
 
-import java.io.File;
+import java.nio.file.Path;
 
 import org.apache.taverna.profile.xml.jaxb.ApplicationProfile;
 
@@ -41,17 +41,17 @@ public interface ApplicationConfiguration {
 
 	public String getTitle();
 
-	public File getStartupDir();
+	public Path getStartupDir();
 
-	public File getApplicationHomeDir();
+	public Path getApplicationHomeDir();
 
-	public File getUserPluginDir();
+	public Path getUserPluginDir();
 
-	public File getSystemPluginDir();
+	public Path getSystemPluginDir();
 
-	public File getLogFile();
+	public Path getLogFile();
 
-	public File getLogDir();
+	public Path getLogDir();
 
 	public ApplicationProfile getApplicationProfile();
 
