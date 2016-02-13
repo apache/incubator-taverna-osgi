@@ -16,7 +16,7 @@
  */
 package org.apache.taverna.plugin;
 
-import java.net.URL;
+import java.net.URI;
 import java.util.List;
 
 import org.apache.taverna.plugin.xml.jaxb.PluginVersions;
@@ -44,7 +44,7 @@ public interface PluginSiteManager {
 	 * @param pluginSiteURL the plugin site URL
 	 * @throws PluginException if there is a problem contacting the plugin site
 	 */
-	public PluginSite createPluginSite(URL pluginSiteURL) throws PluginException;
+	public PluginSite createPluginSite(URI pluginSiteURL) throws PluginException;
 
 	/**
 	 * Adds a plugin site.

@@ -22,7 +22,6 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 
 import java.net.URI;
-import java.net.URL;
 
 import org.apache.taverna.configuration.app.ApplicationConfiguration;
 import org.apache.taverna.download.DownloadException;
@@ -81,7 +80,7 @@ public class PluginSiteManagerImplTest {
 
 		pluginSiteManager.setDownloadManager(downloadManager);
 
-		pluginSiteManager.createPluginSite(new URL("file:///"));
+		pluginSiteManager.createPluginSite(URI.create("file:///"));
 
 	}
 
@@ -92,7 +91,7 @@ public class PluginSiteManagerImplTest {
 
 		pluginSiteManager.setDownloadManager(downloadManager);
 
-		pluginSiteManager.createPluginSite(new URL("file:///"));
+		pluginSiteManager.createPluginSite(URI.create("file:///"));
 	}
 
 	/**

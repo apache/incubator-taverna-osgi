@@ -18,9 +18,7 @@ package org.apache.taverna.plugin.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,15 +83,13 @@ public class PluginSiteManagerImpl implements PluginSiteManager {
 	}
 
 	@Override
-	public PluginSite createPluginSite(URL pluginSiteURL) throws PluginException {
+	public PluginSite createPluginSite(URI pluginSiteURL) throws PluginException {
 		try {			
 			File tempFile = File.createTempFile("plugins", null);
 			tempFile.deleteOnExit();
 			URI pluginFileURL = URI.create(pluginSiteURL + "/").resolve(PLUGINS_FILE);
 			downloadManager.download(pluginFileURL, tempFile.toPath(), DIGEST_ALGORITHM);
-			return new PluginSiteImpl("", pluginSiteURL.toExternalForm());
-		} catch (MalformedURLException e) {
-			throw new PluginException(String.format("Invalid plugin site URL %1$s", pluginSiteURL), e);
+			return new PluginSiteImpl("", pluginSiteURL.toString());
 		} catch (DownloadException e) {
 			throw new PluginException(String.format("Error contacting plugin site at %1$s", pluginSiteURL), e);
 		} catch (IOException e) {

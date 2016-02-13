@@ -18,10 +18,9 @@ package org.apache.taverna.update.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -48,7 +47,6 @@ import org.osgi.service.event.EventAdmin;
 /**
  * Implementation of the Taverna Update Manager.
  *
- * @author David Withers
  */
 public class UpdateManagerImpl implements UpdateManager {
 
@@ -84,13 +82,10 @@ public class UpdateManagerImpl implements UpdateManager {
 		String version = applicationProfile.getVersion();
 		Updates updates = applicationProfile.getUpdates();
 
-		URL updatesURL;
+		URI updatesURL;
 		try {
 			URI updateSiteURI = new URI(updates.getUpdateSite());
-			updatesURL = updateSiteURI.resolve(updates.getUpdatesFile()).toURL();
-		} catch (MalformedURLException e) {
-			throw new UpdateException(String.format("Update site URL (%s) is not a valid URL",
-					updates.getUpdateSite()), e);
+			updatesURL = updateSiteURI.resolve(updates.getUpdatesFile());
 		} catch (URISyntaxException e) {
 			throw new UpdateException(String.format("Update site URL (%s) is not a valid URL",
 					updates.getUpdateSite()), e);
@@ -99,7 +94,7 @@ public class UpdateManagerImpl implements UpdateManager {
 		updateDirectory.mkdirs();
 		File updatesFile = new File(updateDirectory, updates.getUpdatesFile());
 		try {
-			downloadManager.download(updatesURL, updatesFile, DIGEST_ALGORITHM);
+			downloadManager.download(updatesURL, updatesFile.toPath(), DIGEST_ALGORITHM);
 		} catch (DownloadException e) {
 			throw new UpdateException(String.format("Error downloading %1$s",
 					updatesURL), e);
@@ -124,14 +119,10 @@ public class UpdateManagerImpl implements UpdateManager {
 		if (updateAvailable) {
 			ApplicationProfile applicationProfile = applicationConfiguration.getApplicationProfile();
 			Updates updates = applicationProfile.getUpdates();
-			URL profileURL;
+			URI profileURL;
 			try {
 				URI updateSiteURI = new URI(updates.getUpdateSite());
-				profileURL = updateSiteURI.resolve(latestVersion.getFile()).toURL();
-			} catch (MalformedURLException e) {
-				throw new UpdateException(String.format(
-				"Application profile URL (%s) is not a valid URL",
-				latestVersion.getFile()), e);
+				profileURL = updateSiteURI.resolve(latestVersion.getFile());
 			} catch (URISyntaxException e) {
 				throw new UpdateException(String.format("Update site URL (%s) is not a valid URL",
 						updates.getUpdateSite()), e);
@@ -143,7 +134,7 @@ public class UpdateManagerImpl implements UpdateManager {
 			File latestProfileFile = new File(updateDirectory, "ApplicationProfile-"
 					+ latestVersion.getVersion() + ".xml");
 			try {
-				downloadManager.download(profileURL, latestProfileFile, DIGEST_ALGORITHM);
+				downloadManager.download(profileURL, latestProfileFile.toPath(), DIGEST_ALGORITHM);
 			} catch (DownloadException e) {
 				throw new UpdateException(String.format("Error downloading %1$s",
 						profileURL), e);
@@ -195,20 +186,13 @@ public class UpdateManagerImpl implements UpdateManager {
 					updates.getUpdateSite()), e);
 		}
 		for (BundleInfo bundle : requiredBundles) {
-			URL bundleURL;
 			URI bundleURI = updateLibDirectory.resolve(bundle.getFileName());
+			Path bundleDestination = new File(file, bundle.getFileName()).toPath();
 			try {
-				bundleURL = bundleURI.toURL();
-			} catch (MalformedURLException e) {
-				throw new UpdateException(String.format("Bundle URL (%s) is not a valid URL",
-						bundleURI), e);
-			}
-			File bundleDestination = new File(file, bundle.getFileName());
-			try {
-				downloadManager.download(bundleURL, new File(file, bundle.getFileName()), DIGEST_ALGORITHM);
+				downloadManager.download(bundleURI, bundleDestination, DIGEST_ALGORITHM);
 			} catch (DownloadException e) {
 				throw new UpdateException(String.format("Error downloading %1$s to %2$s",
-						bundleURL, bundleDestination), e);
+						bundleURI, bundleDestination), e);
 			}
 		}
 	}
