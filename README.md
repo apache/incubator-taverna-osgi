@@ -123,7 +123,7 @@ contain the corresponding implementation(s).
 * [taverna-plugin-impl](taverna-plugin-impl/) - Apache Taverna Plugin implementation
 * [taverna-update-api](taverna-update-api/) - Apache Taverna Update API
 * [taverna-update-impl](taverna-update-impl/) - Apache Taverna Update implementation
-* [osgi-launcher](osgi-launcher/) - Apache Taverna OSGi Framework Launcher
+* [taverna-osgi-launcher](taverna-osgi-launcher/) - Apache Taverna OSGi Framework Launcher
 * [xml-parser-service](xml-parser-service/) - Apache Taverna XML Parser Service for OSGi
 * [xml-transformer-service](xml-transformer-service/) - Apache Taverna XML Transformer Service for OSGi
 

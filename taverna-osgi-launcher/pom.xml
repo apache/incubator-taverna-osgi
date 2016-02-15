@@ -23,8 +23,8 @@
       <artifactId>apache-taverna-osgi</artifactId>
       <version>0.2.1-incubating-SNAPSHOT</version>
 	</parent>
-	<artifactId>osgi-launcher</artifactId>
-	<name>OSGi Framework Launcher</name>
+	<artifactId>taverna-osgi-launcher</artifactId>
+	<name>Apache Taverna OSGi Framework Launcher</name>
 	<description>Launches an OSGi framework and handles loading and starting of OSGi bundles and Spring DM managed services</description>
 	<dependencies>
 		<dependency>

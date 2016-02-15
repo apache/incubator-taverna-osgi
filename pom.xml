@@ -51,7 +51,7 @@ command line/desktop product.</description>
 	<modules>
 		<module>xml-parser-service</module>
 		<module>xml-transformer-service</module>
-		<module>osgi-launcher</module>
+		<module>taverna-osgi-launcher</module>
 		<module>taverna-app-configuration-api</module>
 		<module>taverna-app-configuration-impl</module>
 		<module>taverna-configuration-api</module>
