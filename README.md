@@ -24,8 +24,8 @@ probably usable for any OSGi-based command line/desktop product.
 
 ## License
 
-(c) 2007-2014 University of Manchester
-(c) 2014-2015 Apache Software Foundation
+* (c) 2007-2014 University of Manchester
+* (c) 2014-2016 Apache Software Foundation
 
 This product includes software developed at The [Apache Software
 Foundation](http://www.apache.org/).
@@ -57,6 +57,7 @@ Any contributions received are assumed to be covered by the [Apache License
 to sign a [Contributor License Agreement](https://www.apache.org/licenses/#clas)
 before accepting a larger contribution.
 
+
 ## Disclaimer
 
 Apache Taverna is an effort undergoing incubation at the
@@ -76,7 +77,7 @@ fully endorsed by the ASF.
 
 ## Prerequisites
 
-* Java 1.7 or newer (tested with OpenJDK 1.8)
+* Java 1.8 or newer (tested with OpenJDK 1.8)
 * [Apache Maven](https://maven.apache.org/download.html) 3.2.5 or newer (older
   versions probably also work)
 
@@ -126,4 +127,36 @@ contain the corresponding implementation(s).
 * [xml-parser-service](xml-parser-service/) - Apache Taverna XML Parser Service for OSGi
 * [xml-transformer-service](xml-transformer-service/) - Apache Taverna XML Transformer Service for OSGi
 
+See the [taverna-osgi javadoc](http://taverna.incubator.apache.org/javadoc/taverna-osgi/)
+for details on each OSGi service. In brief:
 
+* The [OsgiLauncher](http://taverna.incubator.apache.org/javadoc/taverna-osgi/org/apache/taverna/osgilauncher/OsgiLauncher.html)
+  starts the OSGi framework and installs the provided OSGi bundles. It is used by the
+  [taverna-commandline-launcher](https://github.com/apache/incubator-taverna-commandline/blob/master/taverna-commandline-launcher/src/main/java/org/apache/taverna/commandline/TavernaCommandLine.java#L64)
+  `main()` method.
+* The [PluginManager](http://taverna.incubator.apache.org/javadoc/taverna-osgi/org/apache/taverna/plugin/PluginManager.html) service
+  from [taverna-plugin-api](taverna-plugin-api/)
+  allow managing of
+  plugins in an OSGi application, including online installation and updates of plugins. Each
+  [Plugin](http://taverna.incubator.apache.org/javadoc/taverna-osgi/org/apache/taverna/plugin/Plugin.html) provide a collection
+  of OSGi bundles that are activated. The plugins and application profile are described in XML according to the
+  [taverna-osgi-schemas](taverna-osgi-schemas/src/main/resources).
+* The [UpdateManager](http://taverna.incubator.apache.org/javadoc/taverna-osgi/org/apache/taverna/update/UpdateManager.html)
+  can update the installed plugins by downloading from the configured plugin site URI.
+* The [taverna-maven-plugin](taverna-maven-plugin/)   allows creating plugins for the Taverna `PluginManager`
+  using Apache Maven, including deployment to plugin sites.
+* The [DownloadManager](http://taverna.incubator.apache.org/javadoc/taverna-osgi/org/apache/taverna/download/DownloadManager.html)
+  service from [taverna-download-api](taverna-download-api/) provide convenience methods for downloading a `URI`
+  to a `Path`, including hashsum checking using neighbouring `.sha1` or `.md5` URIs. Used by `PluginManager` and `UpdateManager`.
+* The [ApplicationConfiguration](http://taverna.incubator.apache.org/javadoc/taverna-osgi/org/apache/taverna/configuration/app/ApplicationConfiguration.html)
+  service provide application installation details  like the startup directory and home directory for user configuration. The application should have a [conf/taverna.app.properties](https://github.com/apache/incubator-taverna-commandline/blob/master/taverna-commandline-product/src/main/etc/conf/taverna.app.properties)
+  file in its startup folder, e.g. `taverna.app.name=taverna-cl-3.0.0` means `~/.taverna-cl-3.0.0/` will be the
+  application's home directory on Unix.
+* The [ConfigurationManager](http://taverna.incubator.apache.org/javadoc/taverna-osgi/org/apache/taverna/configuration/ConfigurationManager.html)
+  service from [taverna-configuration-api](taverna-configuration-api/) can configure any
+  [Configurable](http://taverna.incubator.apache.org/javadoc/taverna-osgi/org/apache/taverna/configuration/Configurable.html)
+  like the [HTTPProxyConfiguration](http://taverna.incubator.apache.org/javadoc/taverna-osgi/org/apache/taverna/configuration/proxy/HttpProxyConfiguration.html)
+  and the [workbench](https://github.com/apache/incubator-taverna-workbench/blob/master/taverna-configuration-api/src/main/java/org/apache/taverna/workbench/configuration/workbench/WorkbenchConfiguration.java)
+  using preferences stored in the application home directory  
+* The [xml-parser-service](xml-parser-service/)  and [xml-transformer-service](xml-transformer-service/)
+  re-exposes xalan's and xerces's XML parser and XML transformer implementations within SOGi
