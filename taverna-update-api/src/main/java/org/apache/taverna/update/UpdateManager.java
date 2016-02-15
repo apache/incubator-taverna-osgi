@@ -17,9 +17,8 @@
 package org.apache.taverna.update;
 
 /**
- * Manager for updating Tavana Applications.
+ * Manager for updating Taverna OSGi Applications.
  *
- * @author David Withers
  */
 public interface UpdateManager {
 
