@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sf.taverna.t2.maven.plugins;
+package org.apache.taverna.mavenplugin;
 
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
+import org.apache.taverna.mavenplugin.TavernaPluginGenerateMojo;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -63,7 +64,7 @@ public class TavernaPluginGenerateMojoTest extends AbstractMojoTestCase {
 
 	/**
 	 * Test method for
-	 * {@link net.sf.taverna.t2.maven.plugins.TavernaPluginGenerateMojo#execute()}
+	 * {@link org.apache.taverna.mavenplugin.TavernaPluginGenerateMojo#execute()}
 	 *
 	 * @throws Exception
 	 */

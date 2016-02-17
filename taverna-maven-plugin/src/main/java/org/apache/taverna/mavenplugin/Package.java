@@ -14,30 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sf.taverna.t2.maven.plugins;
+package org.apache.taverna.mavenplugin;
 
-import static org.junit.Assert.*;
+import aQute.bnd.version.VersionRange;
 
-import java.util.Set;
+/**
+ * @author David Withers
+ */
+public class Package {
 
-import org.apache.maven.plugin.logging.Log;
-import org.apache.maven.plugin.testing.SilentLog;
-import org.junit.Test;
+	private String name;
+	private VersionRange versionRange;
 
-public class TestUtils {
+	public Package(String name, VersionRange versionRange) {
+		this.name = name;
+		this.versionRange = versionRange;
+	}
 
-	@Test
-	public void getJavaPackages() throws Exception {
-		Log log = new SilentLog();
-		Set<String> packages = Utils.getJavaPackages(log);
-		assertTrue(packages.contains("java.util"));
-		assertTrue(packages.contains("org.xml.sax.helpers"));
-		for (String pkg: packages) { 
-			assertFalse(pkg.isEmpty());
-			assertFalse(pkg.contains(" "));
-			assertFalse(pkg.contains("#"));
-			assertTrue(pkg.contains("."));
+	@Override
+	public String toString() {
+		if (versionRange == null) {
+			return name;
+		} else {
+			return name + ";version=\"" + versionRange + "\"";
 		}
 	}
-	
 }

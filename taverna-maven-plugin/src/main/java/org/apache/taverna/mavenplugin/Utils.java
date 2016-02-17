@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sf.taverna.t2.maven.plugins;
+package org.apache.taverna.mavenplugin;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -14,29 +14,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sf.taverna.t2.maven.plugins;
+package org.apache.taverna.mavenplugin;
 
-import aQute.bnd.version.VersionRange;
+import org.apache.maven.artifact.Artifact;
 
 /**
+ *
+ *
  * @author David Withers
  */
-public class Package {
+public class BundleArtifact {
 
-	private String name;
-	private VersionRange versionRange;
+	private Artifact artifact;
+	private String symbolicName;
+	private String version;
 
-	public Package(String name, VersionRange versionRange) {
-		this.name = name;
-		this.versionRange = versionRange;
+	public BundleArtifact(Artifact artifact, String symbolicName, String version) {
+		this.artifact = artifact;
+		this.symbolicName = symbolicName;
+		this.version = version;
 	}
 
-	@Override
-	public String toString() {
-		if (versionRange == null) {
-			return name;
-		} else {
-			return name + ";version=\"" + versionRange + "\"";
-		}
+	public Artifact getArtifact() {
+		return artifact;
 	}
+
+	public void setArtifact(Artifact artifact) {
+		this.artifact = artifact;
+	}
+
+	public String getSymbolicName() {
+		return symbolicName;
+	}
+
+	public void setSymbolicName(String symbolicName) {
+		this.symbolicName = symbolicName;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
 }

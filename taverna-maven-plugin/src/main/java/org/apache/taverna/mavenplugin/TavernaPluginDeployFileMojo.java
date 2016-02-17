@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sf.taverna.t2.maven.plugins;
+package org.apache.taverna.mavenplugin;
 
-import static net.sf.taverna.t2.maven.plugins.TavernaPluginGenerateMojo.META_INF_TAVERNA;
-import static net.sf.taverna.t2.maven.plugins.TavernaPluginGenerateMojo.PLUGIN_FILE;
+import static org.apache.taverna.mavenplugin.TavernaPluginGenerateMojo.META_INF_TAVERNA;
+import static org.apache.taverna.mavenplugin.TavernaPluginGenerateMojo.PLUGIN_FILE;
 
 import java.io.File;
 import java.io.IOException;
