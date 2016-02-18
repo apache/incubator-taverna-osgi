@@ -21,11 +21,11 @@
 	<parent>
 		<groupId>org.apache.taverna</groupId>
 		<artifactId>apache-taverna-parent</artifactId>
-		<version>2-incubating-SNAPSHOT</version>
+		<version>2-incubating</version>
 	</parent>
 	<groupId>org.apache.taverna.osgi</groupId>
 	<artifactId>apache-taverna-osgi</artifactId>
-	<version>0.2.2-incubating-SNAPSHOT</version>
+	<version>0.2.1-incubating</version>
 	<packaging>pom</packaging>
 	<name>Apache Taverna OSGi plugin system</name>
 	<description>OSGi-based plugin system, including
@@ -36,7 +36,7 @@ command line/desktop product.</description>
 		<connection>scm:git:https://git-wip-us.apache.org/repos/asf/incubator-taverna-osgi.git</connection>
 		<developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/incubator-taverna-osgi.git</developerConnection>
 		<url>https://github.com/apache/incubator-taverna-osgi</url>
-		<tag>HEAD</tag>
+		<tag>0.2.1-incubating-RC2</tag>
 	</scm>
 	<repositories>
 		<repository>

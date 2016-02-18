@@ -21,7 +21,7 @@
 	<parent>
       <groupId>org.apache.taverna.osgi</groupId>
       <artifactId>apache-taverna-osgi</artifactId>
-      <version>0.2.2-incubating-SNAPSHOT</version>
+      <version>0.2.1-incubating</version>
 	</parent>
 	<artifactId>taverna-osgi-launcher</artifactId>
 	<name>Apache Taverna OSGi Framework Launcher</name>
