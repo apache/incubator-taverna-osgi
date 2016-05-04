@@ -168,19 +168,22 @@ discoverable as [Spring](https://spring.io/) services,
 e.g. by adding to
 your `META-INF/spring/update-context-osgi.xml`:
 
+```xml
+
     <beans:beans xmlns="http://www.springframework.org/schema/osgi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     	xmlns:beans="http://www.springframework.org/schema/beans"
-    	xsi:schemaLocation="http://www.springframework.org/schema/beans
-                                     http://www.springframework.org/schema/beans/spring-beans.xsd
-                                     http://www.springframework.org/schema/osgi
-                                     http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+    	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
         <reference id="applicationConfiguration" interface="org.apache.taverna.configuration.app.ApplicationConfiguration" />
         <reference id="proxyConfiguration" interface="org.apache.taverna.configuration.proxy.HttpProxyConfiguration" />
         <reference id="configurationManager" interface="org.apache.taverna.configuration.ConfigurationManager" />
         <reference id="downloadManager" interface="org.apache.taverna.download.DownloadManager" />
         <reference id="pluginManager" interface="org.apache.taverna.plugin.PluginManager" />
-        <reference id="updateManager" interface="org.apache.taverna.update.UpdatenManager" />
+        <reference id="updateManager" interface="org.apache.taverna.update.UpdateManager" />
     </beans:beans>
+```
 
 
 # Export restrictions
