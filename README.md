@@ -212,4 +212,5 @@ The following provides more details on the included cryptographic software:
 * [taverna-download-impl](taverna-download-impl) depend on the
   [Apache HttpComponents](https://hc.apache.org/) Client, which can
   initiate encrypted `https://` connections using
-  Java Secure Socket Extension (JSSE).
+  [Java Secure Socket Extension](https://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html)
+  (JSSE).
