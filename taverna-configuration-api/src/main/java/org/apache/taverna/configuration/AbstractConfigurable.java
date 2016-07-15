@@ -181,7 +181,7 @@ public abstract class AbstractConfigurable implements Configurable {
 		try(CSVPrinter csvWriter = new CSVPrinter(writer,CSVFormat.DEFAULT)) {
 			csvWriter.printRecord(values);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("Exception occurred writing CSV properties:",e);
 		}
 		return writer.getBuffer().toString().trim();
 	}
