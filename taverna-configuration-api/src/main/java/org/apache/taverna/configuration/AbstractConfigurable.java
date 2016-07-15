@@ -22,12 +22,15 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.CSVRecord;
 import org.apache.log4j.Logger;
 
 /**
@@ -149,14 +152,17 @@ public abstract class AbstractConfigurable implements Configurable {
 		List<String> result = new ArrayList<String>();
 		if (property.length()>0) { //an empty string as assumed to be an empty list, rather than a list with 1 empty string in it!
 			StringReader reader = new StringReader(property);
-			CSVParser csvReader = new CSVParser(reader);
-			try {
-				for (String v : csvReader.getLine()) {
-					result.add(v);
+			try (CSVParser csvReader = new CSVParser(reader,CSVFormat.DEFAULT)){
+				
+				for (CSVRecord v : csvReader.getRecords()) {
+					Iterator<String> itr = v.iterator();
+					while(itr.hasNext())result.add(itr.next());
+					
 				}
 			} catch (IOException e) {
 				logger.error("Exception occurred parsing CSV properties:"+property,e);
 			}
+			
 		}
 		return result;
 	}
@@ -172,8 +178,11 @@ public abstract class AbstractConfigurable implements Configurable {
 
 	private String toListText(List<String> values) {
 		StringWriter writer = new StringWriter();
-		CSVPrinter csvWriter = new CSVPrinter(writer);
-		csvWriter.println(values.toArray(new String[]{}));
+		try(CSVPrinter csvWriter = new CSVPrinter(writer,CSVFormat.DEFAULT)) {
+			csvWriter.printRecord(values);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return writer.getBuffer().toString().trim();
 	}
 

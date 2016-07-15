@@ -29,7 +29,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
-			<artifactId>com.springsource.org.apache.commons.csv</artifactId>
+			<artifactId>commons-csv</artifactId>
 			<version>${apache.commons.csv.version}</version>
 		</dependency>
 		<dependency>
