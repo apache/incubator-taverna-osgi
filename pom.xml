@@ -33,8 +33,8 @@ online updates. Written for Apache Taverna,
 probably usable for any OSGi-based
 command line/desktop product.</description>
 	<scm>
-		<connection>scm:git:https://git-wip-us.apache.org/repos/asf/incubator-taverna-osgi.git</connection>
-		<developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/incubator-taverna-osgi.git</developerConnection>
+		<connection>scm:git:https://gitbox.apache.org/repos/asf/incubator-taverna-osgi.git</connection>
+		<developerConnection>scm:git:git@github.com:apache/incubator-taverna-osgi.git</developerConnection>
 		<url>https://github.com/apache/incubator-taverna-osgi</url>
 		<tag>HEAD</tag>
 	</scm>
