@@ -28,10 +28,10 @@
 	<version>0.2.2-incubating-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Apache Taverna OSGi plugin system</name>
-	<description>OSGi-based plugin system, including
-online updates. Written for Apache Taverna,
-probably usable for any OSGi-based
-command line/desktop product.</description>
+	<description>OSGi-based plugin system, including online updates.
+		Written for Apache Taverna, probably usable for any OSGi-based
+		command line/desktop product.
+	</description>
 	<scm>
 		<connection>scm:git:https://gitbox.apache.org/repos/asf/incubator-taverna-osgi.git</connection>
 		<developerConnection>scm:git:git@github.com:apache/incubator-taverna-osgi.git</developerConnection>
