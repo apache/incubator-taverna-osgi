@@ -23,6 +23,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -104,9 +105,7 @@ public class ApplicationConfigurationImpl implements ApplicationConfiguration {
 			if (getName().equals(ApplicationConfigurationImpl.UNKNOWN_APPLICATION)) {
 				try {
 					// Make a temporary home directory as a backup
-					homeDir = File.createTempFile(getName(), "home");
-					homeDir.delete();
-					homeDir.mkdirs();
+					homeDir = Files.createTempDirectory(getName() + "home").toFile();
 				} catch (IOException e) {
 					throw new IllegalStateException("Can't create temporary application home", e);
 				}
