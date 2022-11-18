@@ -19,6 +19,7 @@ package org.apache.taverna.plugin.impl;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,7 +86,7 @@ public class PluginSiteManagerImpl implements PluginSiteManager {
 	@Override
 	public PluginSite createPluginSite(URI pluginSiteURL) throws PluginException {
 		try {			
-			File tempFile = File.createTempFile("plugins", null);
+			File tempFile = Files.createTempFile("plugins",null).toFile();
 			tempFile.deleteOnExit();
 			URI pluginFileURL = URI.create(pluginSiteURL + "/").resolve(PLUGINS_FILE);
 			downloadManager.download(pluginFileURL, tempFile.toPath(), DIGEST_ALGORITHM);
