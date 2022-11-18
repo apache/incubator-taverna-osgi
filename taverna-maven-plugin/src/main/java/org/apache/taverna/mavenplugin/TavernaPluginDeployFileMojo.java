@@ -22,6 +22,7 @@ import static org.apache.taverna.mavenplugin.TavernaPluginGenerateMojo.PLUGIN_FI
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
@@ -142,7 +143,7 @@ public class TavernaPluginDeployFileMojo extends AbstractWagonMojo {
 		}
 
 		try {
-			File pluginsFile = File.createTempFile("taverna", null);
+			File pluginsFile = Files.createTempFile("taverna",null).toFile();
 
 			// fetch the plugins file
 			Plugins plugins;
